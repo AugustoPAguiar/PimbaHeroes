@@ -1554,6 +1554,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1763941387}
+  - component: {fileID: 1763941388}
   m_Layer: 0
   m_Name: Scene Manager
   m_TagString: Untagged
@@ -1576,6 +1577,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1763941388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1763941385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 812d7bcebe62a574fb3eac975b9884ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MenuCampanha
+  backBtn: {fileID: 1813477277}
+  easyBtn: {fileID: 1933964674}
+  mediumBtn: {fileID: 990905889}
+  hardBtn: {fileID: 244092697}
 --- !u!1 &1813477275
 GameObject:
   m_ObjectHideFlags: 0
