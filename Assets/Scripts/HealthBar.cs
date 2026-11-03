@@ -1,39 +1,54 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    public RectTransform redFill;      // a parte vermelha
-    public RectTransform greenFill;    // a parte verde
-    //public RectTransform centerMarker; // o "branco" do meio (opcional)
+    public RectTransform redFill;
+    public RectTransform greenFill;
 
     [Range(0f, 1f)]
-    public float health = 0.5f; // 0 = player perdeu, 1 = player ganhou
+    public float health = 0.5f;
 
-    public float changeSpeed = 0.15f; // quão rápido a barra se move
+    public float changeSpeed = 0.15f;
+
+    private float displayedHealth;
+
+    void Start()
+    {
+        displayedHealth = health;
+        UpdateBar(displayedHealth);
+    }
 
     void Update()
     {
-        // Suaviza a mudança da barra
-        float current = redFill.anchorMax.x; // ou o valor que estiver usando
-        // Vamos usar uma abordagem simples com scale ou anchor
+        displayedHealth = Mathf.MoveTowards( displayedHealth, health, changeSpeed * Time.deltaTime);
 
-        // Método simples e eficaz:
-        greenFill.anchorMax = new Vector2(health, 1f);
-        redFill.anchorMin = new Vector2(health, 0f);
+        UpdateBar(displayedHealth);
+    }
+
+    void UpdateBar(float value)
+    {
+        redFill.anchorMin = new Vector2(0f, 0f);
+        redFill.anchorMax = new Vector2(value, 1f);
+        redFill.offsetMin = Vector2.zero;
+        redFill.offsetMax = Vector2.zero;
+
+        greenFill.anchorMin = new Vector2(value, 0f);
+        greenFill.anchorMax = new Vector2(1f, 1f);
+        greenFill.offsetMin = Vector2.zero;
+        greenFill.offsetMax = Vector2.zero;
     }
 
     public void ChangeHealth(float amount)
     {
-        health = Mathf.Clamp01(health + amount);
+        health = Mathf.Clamp01(health - amount);
 
-        if (health <= 0.02f)
-        {
-            GameManager.Instance.PlayerLose();
-        }
-        else if (health >= 0.98f)
+        if (health <= 0.05f)
         {
             GameManager.Instance.PlayerWin();
+        }
+        else if (health >= 0.95f)
+        {
+            GameManager.Instance.PlayerLose();
         }
     }
 }

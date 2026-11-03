@@ -154,6 +154,21 @@ Transform:
   - {fileID: 1974023594}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!224 &608727931 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3435823000641778419, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
+  m_PrefabInstance: {fileID: 1403060760}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &639673275 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3435823000641778419, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
+  m_PrefabInstance: {fileID: 2756977461823916185}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &659299491 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1654417947838857772, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
+  m_PrefabInstance: {fileID: 1403060760}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &682132274 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7920448348377160764, guid: d1728031cd1b6b94688000a11446a7e7, type: 3}
@@ -189,7 +204,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: bf0ffad92b5b7944f9681410cb3bda80, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.237
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -456,6 +471,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7648424494607663202, guid: d1728031cd1b6b94688000a11446a7e7, type: 3}
   m_PrefabInstance: {fileID: 7769802763279778490}
   m_PrefabAsset: {fileID: 0}
+--- !u!224 &801030104 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6754705675687727152, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
+  m_PrefabInstance: {fileID: 1403060760}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &957184863
 GameObject:
   m_ObjectHideFlags: 0
@@ -555,7 +575,7 @@ MonoBehaviour:
   musicSource: {fileID: 686627049}
   playerInput: {fileID: 1975915132}
   currentSong: {fileID: 11400000, guid: edd5b8b935e73594f933ba655af2dc4a, type: 2}
-  enemyAccuracy: 0.707
+  enemyAccuracy: 0.95
   hitAmount: 0.035
   missAmount: -0.05
   enemyHitAmount: -0.03
@@ -725,9 +745,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1974023594}
     m_Modifications:
+    - target: {fileID: 962888707328681790, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
+      propertyPath: m_Name
+      value: UI Right
+      objectReference: {fileID: 0}
+    - target: {fileID: 1221105467557334702, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
+      propertyPath: m_Name
+      value: UI Down
+      objectReference: {fileID: 0}
     - target: {fileID: 1745618004544940401, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
       propertyPath: m_Name
-      value: Enemy
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 2494108781588930418, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
       propertyPath: m_Pivot.x
@@ -808,6 +836,14 @@ PrefabInstance:
     - target: {fileID: 2494108781588930418, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6609623640253340850, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
+      propertyPath: m_Name
+      value: UI Up
+      objectReference: {fileID: 0}
+    - target: {fileID: 7125199447045893229, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
+      propertyPath: m_Name
+      value: UI Left
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -942,16 +978,16 @@ MonoBehaviour:
   downArrowPrefab: {fileID: 2317714614289327792, guid: 41fc234d1f0a8ca4f9e82e718348988f, type: 3}
   upArrowPrefab: {fileID: 3756279992221438616, guid: 1ca7d3eef083c024883a6df460668ca5, type: 3}
   rightArrowPrefab: {fileID: 4356953381209905729, guid: a799c0d6ed9d4924da57bc15ce146b62, type: 3}
+  playerLeftTarget: {fileID: 608727931}
+  playerDownTarget: {fileID: 801030104}
+  playerUpTarget: {fileID: 659299491}
+  playerRightTarget: {fileID: 1558196691}
+  enemyLeftTarget: {fileID: 639673275}
+  enemyDownTarget: {fileID: 2073257998}
+  enemyUpTarget: {fileID: 1644860683}
+  enemyRightTarget: {fileID: 1929704581}
   noteSpeed: 500
   travelTime: 1
-  playerLeftX: 300
-  playerDownX: 570
-  playerUpX: 450
-  playerRightX: 720
-  enemyLeftX: -720
-  enemyDownX: -450
-  enemyUpX: -570
-  enemyRightX: -300
   startY: -600
   canvas: {fileID: 1974023597}
 --- !u!1 &1548433061
@@ -1033,9 +1069,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 734170747}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!224 &1558196691 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4617152621330561440, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
+  m_PrefabInstance: {fileID: 1403060760}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &1644860683 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1654417947838857772, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
+  m_PrefabInstance: {fileID: 2756977461823916185}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1896442230 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2494108781588930418, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
+  m_PrefabInstance: {fileID: 2756977461823916185}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &1929704581 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4617152621330561440, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
   m_PrefabInstance: {fileID: 2756977461823916185}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1974023593
@@ -1187,7 +1238,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b7044078faae8a4480a29050c35f329, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInput
-  hitWindow: 80
+  hitWindowPixels: 80
+--- !u!224 &2073257998 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6754705675687727152, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
+  m_PrefabInstance: {fileID: 2756977461823916185}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2756977461823916185
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1196,9 +1252,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1974023594}
     m_Modifications:
+    - target: {fileID: 962888707328681790, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
+      propertyPath: m_Name
+      value: UI Right
+      objectReference: {fileID: 0}
+    - target: {fileID: 1221105467557334702, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
+      propertyPath: m_Name
+      value: UI Down
+      objectReference: {fileID: 0}
     - target: {fileID: 1745618004544940401, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
       propertyPath: m_Name
-      value: Player
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 2494108781588930418, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
       propertyPath: m_Pivot.x
@@ -1279,6 +1343,14 @@ PrefabInstance:
     - target: {fileID: 2494108781588930418, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6609623640253340850, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
+      propertyPath: m_Name
+      value: UI Up
+      objectReference: {fileID: 0}
+    - target: {fileID: 7125199447045893229, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
+      propertyPath: m_Name
+      value: UI Left
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

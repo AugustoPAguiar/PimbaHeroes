@@ -3,70 +3,75 @@ using System.Collections.Generic;
 
 public class NoteSpawner : MonoBehaviour
 {
-    public enum Turn { Player, Enemy }
+    public enum Turn
+    {
+        Player,
+        Enemy
+    }
 
-    [Header("Prefabs das Setas")]
+    [Header("Prefabs das notas")]
     public GameObject leftArrowPrefab;
     public GameObject downArrowPrefab;
     public GameObject upArrowPrefab;
     public GameObject rightArrowPrefab;
 
+    [Header("Peixes receptores do jogador")]
+    public RectTransform playerLeftTarget;
+    public RectTransform playerDownTarget;
+    public RectTransform playerUpTarget;
+    public RectTransform playerRightTarget;
+
+    [Header("Peixes receptores do inimigo")]
+    public RectTransform enemyLeftTarget;
+    public RectTransform enemyDownTarget;
+    public RectTransform enemyUpTarget;
+    public RectTransform enemyRightTarget;
+
     [Header("Configuração")]
     public float noteSpeed = 500f;
     public float travelTime = 1f;
-
-    [Header("Posições X - Lado do Player")]
-    public float playerLeftX = 300f;
-    public float playerDownX = 570f;
-    public float playerUpX = 450f;
-    public float playerRightX = 720f;
-
-    [Header("Posições X - Lado do Inimigo")]
-    public float enemyLeftX = -720f;
-    public float enemyDownX = -450f;
-    public float enemyUpX = -570f;
-    public float enemyRightX = -300f;
-
     public float startY = -600f;
     public Canvas canvas;
 
-    // Estado atual
     private SongChart currentChart;
     private AudioSource audioSource;
-    private int currentSectionIndex = 0;
+    private int currentSectionIndex;
     private Turn currentTurn = Turn.Player;
     private List<NoteData> currentNotes = new List<NoteData>();
-    private Transform notesParent;
-    private bool isPlaying = false;
-    private float sectionStartTime = 0f;
+    private RectTransform notesParent;
+    private bool isPlaying;
+    private float sectionStartTime;
 
     public Turn CurrentTurn => currentTurn;
     public bool IsPlayerTurn => currentTurn == Turn.Player;
 
-    void Awake()
+    private void Awake()
     {
         if (canvas == null)
         {
-            Debug.LogError("Não encontrei nenhum Canvas na cena!");
+            Debug.LogError("Não encontrei nenhum Canvas na cena!", this);
             return;
         }
 
-        // Cria o container DENTRO do Canvas
         GameObject container = new GameObject("NotesContainer");
-        container.transform.SetParent(canvas.transform); // false = mantém posição local
+        container.transform.SetParent(canvas.transform, false);
 
-        // Adiciona RectTransform
-        RectTransform containerRect = container.AddComponent<RectTransform>();
-        containerRect.anchorMin = Vector2.zero;
-        containerRect.anchorMax = Vector2.one;
-        containerRect.offsetMin = Vector2.zero;
-        containerRect.offsetMax = Vector2.zero;
-
-        notesParent = container.transform;
+        notesParent = container.AddComponent<RectTransform>();
+        notesParent.anchorMin = Vector2.zero;
+        notesParent.anchorMax = Vector2.one;
+        notesParent.pivot = new Vector2(0.5f, 0.5f);
+        notesParent.offsetMin = Vector2.zero;
+        notesParent.offsetMax = Vector2.zero;
     }
 
     public void StartSong(SongChart chart, AudioSource source)
     {
+        if (notesParent == null)
+        {
+            Debug.LogError("O NotesContainer não foi criado. Verifique o Canvas.", this);
+            return;
+        }
+
         currentChart = chart;
         audioSource = source;
         currentSectionIndex = 0;
@@ -82,137 +87,173 @@ public class NoteSpawner : MonoBehaviour
     public void StopSong()
     {
         isPlaying = false;
-        if (audioSource != null) audioSource.Stop();
+
+        if (audioSource != null)
+            audioSource.Stop();
     }
 
-    void LoadCurrentSection()
+    private void LoadCurrentSection()
     {
         if (currentSectionIndex >= currentChart.sections.Count)
         {
-            // Acabaram os takes → música terminou
             Debug.Log("Música terminou!");
             isPlaying = false;
             return;
         }
 
-        currentNotes = new List<NoteData>(currentChart.sections[currentSectionIndex].notes);
+        currentNotes = new List<NoteData>(
+            currentChart.sections[currentSectionIndex].notes
+        );
+
         currentNotes.Sort((a, b) => a.time.CompareTo(b.time));
 
         sectionStartTime = audioSource.time;
-        Debug.Log($"Iniciando Take {currentSectionIndex + 1} - Vez do {(currentTurn == Turn.Player ? "PLAYER" : "INIMIGO")}");
+
+        string turnName = currentTurn == Turn.Player ? "PLAYER" : "INIMIGO";
+        Debug.Log($"Iniciando Take {currentSectionIndex + 1} - Vez do {turnName}");
     }
 
-    void Update()
+    private void Update()
     {
-        if (!isPlaying || audioSource == null) return;
+        if (!isPlaying || audioSource == null)
+            return;
 
         float timeInSection = audioSource.time - sectionStartTime;
 
-        // Spawna as notas do take atual
         while (currentNotes.Count > 0)
         {
             NoteData data = currentNotes[0];
             float spawnTime = data.time - travelTime;
 
-            if (timeInSection >= spawnTime)
-            {
-                SpawnNote(data);
-                currentNotes.RemoveAt(0);
-            }
-            else break;
+            if (timeInSection < spawnTime)
+                break;
+
+            SpawnNote(data);
+            currentNotes.RemoveAt(0);
         }
 
-        // Quando acabarem as notas do take + um tempinho → passa a vez
-        if (currentNotes.Count == 0)
+        if (currentNotes.Count == 0 &&
+            timeInSection > GetLastNoteTime() + travelTime + 0.8f)
         {
-            // Espera a última nota sumir + margem
-            if (timeInSection > GetLastNoteTime() + travelTime + 0.8f)
-            {
-                NextTurn();
-            }
+            NextTurn();
         }
     }
 
-    float GetLastNoteTime()
+    private float GetLastNoteTime()
     {
-        if (currentChart.sections[currentSectionIndex].notes.Count == 0) return 0f;
+        List<NoteData> sectionNotes =
+            currentChart.sections[currentSectionIndex].notes;
 
-        float max = 0f;
-        foreach (var n in currentChart.sections[currentSectionIndex].notes)
+        if (sectionNotes.Count == 0)
+            return 0f;
+
+        float lastTime = 0f;
+
+        foreach (NoteData note in sectionNotes)
         {
-            float end = n.isHold ? n.time + n.holdDuration : n.time;
-            if (end > max) max = end;
+            float noteEndTime = note.isHold
+                ? note.time + note.holdDuration
+                : note.time;
+
+            if (noteEndTime > lastTime)
+                lastTime = noteEndTime;
         }
-        return max;
+
+        return lastTime;
     }
 
-    void NextTurn()
+    private void NextTurn()
     {
         if (currentTurn == Turn.Player)
         {
-            // Passa para o inimigo jogar o MESMO take
             currentTurn = Turn.Enemy;
-            LoadCurrentSection(); // recarrega as mesmas notas
+            LoadCurrentSection();
         }
         else
         {
-            // Inimigo terminou → vai para o próximo take do player
             currentTurn = Turn.Player;
             currentSectionIndex++;
             LoadCurrentSection();
         }
     }
 
-    void SpawnNote(NoteData data)
+    private void SpawnNote(NoteData data)
     {
-        GameObject prefab = null;
-        KeyCode key = KeyCode.None;
-        float xPos = 0f;
-
         bool isEnemySide = currentTurn == Turn.Enemy;
 
-        switch (data.direction)
-        {
-            case 0:
-                prefab = leftArrowPrefab;
-                key = KeyCode.A;
-                xPos = isEnemySide ? enemyLeftX : playerLeftX;
-                break;
-            case 1:
-                prefab = downArrowPrefab;
-                key = KeyCode.S;
-                xPos = isEnemySide ? enemyDownX : playerDownX;
-                break;
-            case 2:
-                prefab = upArrowPrefab;
-                key = KeyCode.W;
-                xPos = isEnemySide ? enemyUpX : playerUpX;
-                break;
-            case 3:
-                prefab = rightArrowPrefab;
-                key = KeyCode.D;
-                xPos = isEnemySide ? enemyRightX : playerRightX;
-                break;
-        }
+        GameObject prefab = GetPrefab(data.direction);
+        KeyCode key = GetKey(data.direction);
+        RectTransform hitTarget = GetHitTarget(data.direction, isEnemySide);
 
-        if (prefab == null) return;
+        GameObject noteObject = Instantiate(prefab, notesParent, false);
 
-        // Instancia como filho do container (importante para UI)
-        GameObject noteObj = Instantiate(prefab, notesParent, false); // false = worldPositionStays false
+        RectTransform noteRect = noteObject.GetComponent<RectTransform>();
 
-        RectTransform rt = noteObj.GetComponent<RectTransform>();
+        noteRect.anchorMin = new Vector2(0.5f, 0.5f);
+        noteRect.anchorMax = new Vector2(0.5f, 0.5f);
+        noteRect.pivot = new Vector2(0.5f, 0.5f);
 
-        // Reseta escala e âncoras para evitar problemas
-        rt.anchorMin = new Vector2(0.5f, 0.5f);
-        rt.anchorMax = new Vector2(0.5f, 0.5f);
-        rt.pivot = new Vector2(0.5f, 0.5f);
+        Vector3 targetCenter = hitTarget.TransformPoint(hitTarget.rect.center);
+        Vector3 targetPositionInNotes = notesParent.InverseTransformPoint(targetCenter);
 
-        rt.anchoredPosition = new Vector2(xPos, startY);
+        // A nota começa abaixo do peixe, na mesma posição horizontal.
+        noteRect.anchoredPosition = new Vector2(targetPositionInNotes.x, startY);
 
-        Note note = noteObj.GetComponent<Note>();
-        if (note == null) note = noteObj.AddComponent<Note>();
+        Note note = noteObject.GetComponent<Note>();
+
+        if (note == null)
+            note = noteObject.AddComponent<Note>();
 
         note.Setup(key, noteSpeed, data.isHold, data.holdDuration);
         note.isEnemyNote = isEnemySide;
+        note.hitTarget = hitTarget;
+    }
+
+    private GameObject GetPrefab(int direction)
+    {
+        switch (direction)
+        {
+            case 0: return leftArrowPrefab;
+            case 1: return downArrowPrefab;
+            case 2: return upArrowPrefab;
+            case 3: return rightArrowPrefab;
+            default: return null;
+        }
+    }
+
+    private KeyCode GetKey(int direction)
+    {
+        switch (direction)
+        {
+            case 0: return KeyCode.A;
+            case 1: return KeyCode.S;
+            case 2: return KeyCode.W;
+            case 3: return KeyCode.D;
+            default: return KeyCode.None;
+        }
+    }
+
+    private RectTransform GetHitTarget(int direction, bool isEnemySide)
+    {
+        if (isEnemySide)
+        {
+            switch (direction)
+            {
+                case 0: return enemyLeftTarget;
+                case 1: return enemyDownTarget;
+                case 2: return enemyUpTarget;
+                case 3: return enemyRightTarget;
+                default: return null;
+            }
+        }
+
+        switch (direction)
+        {
+            case 0: return playerLeftTarget;
+            case 1: return playerDownTarget;
+            case 2: return playerUpTarget;
+            case 3: return playerRightTarget;
+            default: return null;
+        }
     }
 }

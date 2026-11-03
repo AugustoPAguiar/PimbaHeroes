@@ -71,7 +71,6 @@ public class GameManager : MonoBehaviour
 
     public void OnEnemyMiss()
     {
-        // Inimigo errou → pequena vantagem pro player
         healthBar.ChangeHealth(0.015f);
     }
 

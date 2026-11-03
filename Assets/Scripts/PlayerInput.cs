@@ -2,49 +2,45 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-    public float hitWindow = 80f; // Distância Y em que a nota pode ser apertada
+    [Tooltip("Distância máxima para aceitar a tecla, em pixels.")]
+    public float hitWindowPixels = 80f;
 
-    void Update()
+    private void Update()
     {
-        CheckInput(KeyCode.A, "Left");
-        CheckInput(KeyCode.S, "Down");
-        CheckInput(KeyCode.W, "Up");
-        CheckInput(KeyCode.D, "Right");
+        CheckInput(KeyCode.A);
+        CheckInput(KeyCode.S);
+        CheckInput(KeyCode.W);
+        CheckInput(KeyCode.D);
     }
 
-    void CheckInput(KeyCode key, string direction)
+    private void CheckInput(KeyCode key)
     {
-        if (Input.GetKeyDown(key))
+        if (!Input.GetKeyDown(key))
+            return;
+
+        Note[] notes = FindObjectsByType<Note>(FindObjectsSortMode.None);
+
+        Note closestNote = null;
+        float closestDistance = float.MaxValue;
+
+        foreach (Note note in notes)
         {
-            // Procura a nota mais próxima que pode ser apertada
-            // Note[] notes = FindObjectsOfType<Note>();
-            Note[] notes = FindObjectsByType<Note>(FindObjectsSortMode.None);
-            Note closest = null;
-            float closestDist = float.MaxValue;
+            if (note.isEnemyNote || note.wasHit || note.keyToPress != key)
+                continue;
 
-            foreach (Note note in notes)
-            {
-                if (note.keyToPress == key && !note.wasHit)
-                {
-                    float dist = Mathf.Abs(note.GetComponent<RectTransform>().anchoredPosition.y - 250f); // 250 = zona de acerto
-                    if (dist < hitWindow && dist < closestDist)
-                    {
-                        closestDist = dist;
-                        closest = note;
-                    }
-                }
-            }
+            float distance = note.GetDistanceToHitTargetPixels();
 
-            if (closest != null)
+            if (distance <= hitWindowPixels && distance < closestDistance)
             {
-                closest.Hit();
-                GameManager.Instance.OnPlayerHit(closestDist); // quanto menor a dist, melhor o acerto
-            }
-            else
-            {
-                // Apertou no vazio → penalidade leve (opcional)
-                // GameManager.Instance.OnPlayerMiss();
+                closestNote = note;
+                closestDistance = distance;
             }
         }
+
+        if (closestNote == null)
+            return;
+
+        closestNote.Hit();
+        GameManager.Instance.OnPlayerHit(closestDistance);
     }
 }
