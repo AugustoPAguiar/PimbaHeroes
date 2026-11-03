@@ -148,72 +148,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1974023594}
   - {fileID: 1519940912}
   - {fileID: 1144896664}
   - {fileID: 1975915131}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &102012958
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 102012959}
-  m_Layer: 0
-  m_Name: Fase 3
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &102012959
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 102012958}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 249.08095, y: 232.49016, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &540173000
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 540173001}
-  m_Layer: 0
-  m_Name: Fase 2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &540173001
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 540173000}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 249.08095, y: 232.49016, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
+  - {fileID: 1974023594}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &682132274 stripped
@@ -1000,21 +938,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feb70b910c73c1445aaecc947648234b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NoteSpawner
-  leftArrowPrefab: {fileID: 2025018087417998806, guid: 876c535a6df52ad459c1e01ced6b11ed, type: 3}
-  downArrowPrefab: {fileID: 2025018087417998806, guid: 876c535a6df52ad459c1e01ced6b11ed, type: 3}
-  upArrowPrefab: {fileID: 2025018087417998806, guid: 876c535a6df52ad459c1e01ced6b11ed, type: 3}
-  rightArrowPrefab: {fileID: 2025018087417998806, guid: 876c535a6df52ad459c1e01ced6b11ed, type: 3}
-  noteSpeed: 8
-  travelTime: 1.8
-  playerLeftX: -280
-  playerDownX: -90
-  playerUpX: 90
-  playerRightX: 280
-  enemyLeftX: 280
-  enemyDownX: 90
-  enemyUpX: -90
-  enemyRightX: -280
-  startY: -450
+  leftArrowPrefab: {fileID: 6612522740577935637, guid: a453af65cb0aef84ea73349d22b9b7e8, type: 3}
+  downArrowPrefab: {fileID: 2317714614289327792, guid: 41fc234d1f0a8ca4f9e82e718348988f, type: 3}
+  upArrowPrefab: {fileID: 3756279992221438616, guid: 1ca7d3eef083c024883a6df460668ca5, type: 3}
+  rightArrowPrefab: {fileID: 4356953381209905729, guid: a799c0d6ed9d4924da57bc15ce146b62, type: 3}
+  noteSpeed: 500
+  travelTime: 1
+  playerLeftX: 300
+  playerDownX: 570
+  playerUpX: 450
+  playerRightX: 720
+  enemyLeftX: -720
+  enemyDownX: -450
+  enemyUpX: -570
+  enemyRightX: -300
+  startY: -600
+  canvas: {fileID: 1974023597}
 --- !u!1 &1548433061
 GameObject:
   m_ObjectHideFlags: 0
@@ -1358,6 +1297,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Battle Life
       objectReference: {fileID: 0}
+    - target: {fileID: 4252624717937476898, guid: d1728031cd1b6b94688000a11446a7e7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7648424494607663202, guid: d1728031cd1b6b94688000a11446a7e7, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1438,6 +1381,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8322080420982179270, guid: d1728031cd1b6b94688000a11446a7e7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1449,5 +1396,3 @@ SceneRoots:
   m_Roots:
   - {fileID: 734170747}
   - {fileID: 93697899}
-  - {fileID: 540173001}
-  - {fileID: 102012959}

@@ -12,22 +12,23 @@ public class NoteSpawner : MonoBehaviour
     public GameObject rightArrowPrefab;
 
     [Header("Configuração")]
-    public float noteSpeed = 9f;
-    public float travelTime = 1.8f;
+    public float noteSpeed = 500f;
+    public float travelTime = 1f;
 
     [Header("Posições X - Lado do Player")]
-    public float playerLeftX = -280f;
-    public float playerDownX = -90f;
-    public float playerUpX = 90f;
-    public float playerRightX = 280f;
+    public float playerLeftX = 300f;
+    public float playerDownX = 570f;
+    public float playerUpX = 450f;
+    public float playerRightX = 720f;
 
     [Header("Posições X - Lado do Inimigo")]
-    public float enemyLeftX = 280f;
-    public float enemyDownX = 90f;
-    public float enemyUpX = -90f;
-    public float enemyRightX = -280f;
+    public float enemyLeftX = -720f;
+    public float enemyDownX = -450f;
+    public float enemyUpX = -570f;
+    public float enemyRightX = -300f;
 
-    public float startY = -450f;
+    public float startY = -600f;
+    public Canvas canvas;
 
     // Estado atual
     private SongChart currentChart;
@@ -44,12 +45,24 @@ public class NoteSpawner : MonoBehaviour
 
     void Awake()
     {
-        GameObject container = new GameObject("NotesContainer");
-        container.transform.SetParent(transform.parent);
-        notesParent = container.transform;
+        if (canvas == null)
+        {
+            Debug.LogError("Não encontrei nenhum Canvas na cena!");
+            return;
+        }
 
-        if (notesParent.GetComponent<RectTransform>() == null)
-            notesParent.gameObject.AddComponent<RectTransform>();
+        // Cria o container DENTRO do Canvas
+        GameObject container = new GameObject("NotesContainer");
+        container.transform.SetParent(canvas.transform); // false = mantém posição local
+
+        // Adiciona RectTransform
+        RectTransform containerRect = container.AddComponent<RectTransform>();
+        containerRect.anchorMin = Vector2.zero;
+        containerRect.anchorMax = Vector2.one;
+        containerRect.offsetMin = Vector2.zero;
+        containerRect.offsetMax = Vector2.zero;
+
+        notesParent = container.transform;
     }
 
     public void StartSong(SongChart chart, AudioSource source)
@@ -184,14 +197,22 @@ public class NoteSpawner : MonoBehaviour
 
         if (prefab == null) return;
 
-        GameObject noteObj = Instantiate(prefab, notesParent);
+        // Instancia como filho do container (importante para UI)
+        GameObject noteObj = Instantiate(prefab, notesParent, false); // false = worldPositionStays false
+
         RectTransform rt = noteObj.GetComponent<RectTransform>();
+
+        // Reseta escala e âncoras para evitar problemas
+        rt.anchorMin = new Vector2(0.5f, 0.5f);
+        rt.anchorMax = new Vector2(0.5f, 0.5f);
+        rt.pivot = new Vector2(0.5f, 0.5f);
+
         rt.anchoredPosition = new Vector2(xPos, startY);
 
         Note note = noteObj.GetComponent<Note>();
         if (note == null) note = noteObj.AddComponent<Note>();
 
         note.Setup(key, noteSpeed, data.isHold, data.holdDuration);
-        note.isEnemyNote = isEnemySide; // vamos adicionar esse campo no Note
+        note.isEnemyNote = isEnemySide;
     }
 }
