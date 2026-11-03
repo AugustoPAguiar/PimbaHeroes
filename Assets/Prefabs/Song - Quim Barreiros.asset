@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d1aa4eb6f5b9cf49ac945bf32dcc1d1, type: 3}
+  m_Name: Song - Quim Barreiros
+  m_EditorClassIdentifier: Assembly-CSharp::SongChart
+  songName: Os bichos da fazenda
+  music: {fileID: 8300000, guid: bf0ffad92b5b7944f9681410cb3bda80, type: 3}
+  sections:
+  - sectionName: Parte 1
+    notes:
+    - time: 1
+      direction: 1
+      isHold: 1
+      holdDuration: 1
+    - time: 1.5
+      direction: 2
+      isHold: 0
+      holdDuration: 0
+    - time: 2
+      direction: 0
+      isHold: 0
+      holdDuration: 0
+    - time: 2.4
+      direction: 2
+      isHold: 0
+      holdDuration: 0
+    - time: 4
+      direction: 3
+      isHold: 0
+      holdDuration: 0
+  - sectionName: part 2
+    notes:
+    - time: 1
+      direction: 1
+      isHold: 1
+      holdDuration: 2
+    - time: 4
+      direction: 2
+      isHold: 0
+      holdDuration: 0
+    - time: 4
+      direction: 0
+      isHold: 0
+      holdDuration: 0
+    - time: 4.8
+      direction: 3
+      isHold: 0
+      holdDuration: 0
+    - time: 5
+      direction: 3
+      isHold: 0
+      holdDuration: 0
+    - time: 6.5
+      direction: 0
+      isHold: 0
+      holdDuration: 0
+    - time: 7
+      direction: 1
+      isHold: 0
+      holdDuration: 0
