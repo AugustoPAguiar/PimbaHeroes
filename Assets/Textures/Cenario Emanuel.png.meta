@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: d2434b248694dbb4784951e704d0ee15
+guid: b46a857923c8ef3439dd842346decc28
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6768268734653358723
-    second: Cenario Emanuel_0
+      213: 781511422480199284
+    second: Cenario Emanuel (1)_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -113,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Cenario Emanuel_0
+      name: Cenario Emanuel (1)_0
       rect:
         serializedVersion: 2
         x: 0
@@ -121,15 +121,15 @@ TextureImporter:
         width: 3840
         height: 2160
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d7d9a9612774212a0800000000000000
-      internalID: -6768268734653358723
+      spriteID: 47ea7d48f7c78da00800000000000000
+      internalID: 781511422480199284
       vertices: []
       indices: 
       edges: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 807ea26490d2862429f8fb4b42a8e2e4
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Cenario Emanuel_0: -6768268734653358723
+      Cenario Emanuel (1)_0: 781511422480199284
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
