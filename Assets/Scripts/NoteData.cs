@@ -11,8 +11,8 @@ public class NoteData
 }
 
 [System.Serializable]
-public class XSection
+public class Section
 {
-    public string sectionName;          // opcional (ex: "Verso 1", "Refrão")
+    public string sectionName;
     public List<NoteData> notes = new List<NoteData>();
 }
