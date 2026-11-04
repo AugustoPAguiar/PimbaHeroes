@@ -15,7 +15,7 @@ public class MenuPrincipal : MonoBehaviour
 
     void OnJogarClick()
     {
-        SceneManager.LoadSceneAsync("2 - Menu Story");
+        SceneManager.LoadSceneAsync("History 1 - Emanuel");
     }
 
     void OnCoopClick()

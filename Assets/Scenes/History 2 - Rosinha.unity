@@ -1547,7 +1547,7 @@ MonoBehaviour:
   missAmount: -0.03
   enemyHitAmount: -0.03
   enemyMissAmount: 0.015
-  enemyMissChance: 0
+  enemyMissChance: 0.3
 --- !u!114 &1144896666
 MonoBehaviour:
   m_ObjectHideFlags: 0

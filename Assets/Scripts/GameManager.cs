@@ -1,5 +1,7 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -44,7 +46,16 @@ public class GameManager : MonoBehaviour
     [Header("Comportamento do inimigo")]
     [Range(0f, 1f)] public float enemyMissChance = 0.8f;
 
+    public EndGame fimDeJogo;
+
     private int score;
+    private int notasTotais = 0;
+    private int qtdPerfect = 0;
+    private int qtdGreat = 0;
+    private int qtdGood = 0;
+    private int qtdMiss = 0;
+    private int porcentagemAcerto = 0;
+
     private Coroutine hideJudgmentRoutine;
 
     private void Awake()
@@ -85,6 +96,8 @@ public class GameManager : MonoBehaviour
     {
         judgmentDisplay.gameObject.SetActive(true);
 
+        notasTotais++;
+
         HitQuality quality = GetQuality(distance);
         ShowJudgment(quality);
         switch (quality)
@@ -92,17 +105,21 @@ public class GameManager : MonoBehaviour
             case HitQuality.Perfect:
                 AddScore(perfectPoints);
                 healthBar.ChangeHealth(hitAmount);
+                qtdPerfect++;
                 break;
             case HitQuality.Great:
                 AddScore(greatPoints);
                 healthBar.ChangeHealth(hitAmount * 0.8f);
+                qtdGreat++;
                 break;
             case HitQuality.Good:
                 AddScore(goodPoints);
                 healthBar.ChangeHealth(hitAmount * 0.5f);
+                qtdGood++;
                 break;
             default:
                 OnPlayerMiss();
+                qtdMiss++;
                 break;
         }
         return quality;
@@ -155,13 +172,50 @@ public class GameManager : MonoBehaviour
 
     public void PlayerWin()
     {
-        Debug.Log("<color=green>VOCÊ GANHOU!</color>");
+        spawner.gameObject.SetActive(false);
+
+        fimDeJogo.SetUiText();
+
+        fimDeJogo.textoFinal.text = "<color=green>VITÓRIA</color>";
+
+        Estatisticas();
+
+        fimDeJogo.btnContinuar.GetComponentInChildren<TMP_Text>().text = "Continuar";
+
+        fimDeJogo.btnContinuar.onClick.AddListener(() => { SceneManager.LoadSceneAsync(fimDeJogo.proxFase); });
+
         spawner.StopSong();
     }
 
     public void PlayerLose()
     {
-        Debug.Log("<color=red>VOCÊ PERDEU!</color>");
+        spawner.gameObject.SetActive(false);
+
+        fimDeJogo.SetUiText();
+
+        fimDeJogo.textoFinal.text = "<color=red>DERROTA</color>";
+
+        Estatisticas();
+
+        fimDeJogo.btnContinuar.GetComponentInChildren<TMP_Text>().text = "Voltar";
+
+        fimDeJogo.btnContinuar.onClick.AddListener(() => { SceneManager.LoadSceneAsync("1 - Menu Principal"); });
+
         spawner.StopSong();
+    }
+
+    private void Estatisticas()
+    {
+        
+
+        string stats =
+            $"Perfect: {qtdPerfect}\n" +
+            $"Great: {qtdGreat}\n" +
+            $"Good: {qtdGood}\n" +
+            $"Miss: {qtdMiss}\n" +
+            $"Score: {score}\n\n" +
+            $"Acertos (%): {((qtdPerfect + qtdGreat + qtdGood - qtdMiss) / notasTotais) * 100}%";
+
+        fimDeJogo.textoEstatística.text = stats;
     }
 }
