@@ -1334,11 +1334,27 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI Down
       objectReference: {fileID: 0}
+    - target: {fileID: 1569268105970643999, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
+      propertyPath: m_Color.b
+      value: 0.5471698
+      objectReference: {fileID: 0}
+    - target: {fileID: 1569268105970643999, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
+      propertyPath: m_Color.g
+      value: 0.5471698
+      objectReference: {fileID: 0}
+    - target: {fileID: 1569268105970643999, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
+      propertyPath: m_Color.r
+      value: 0.5471698
+      objectReference: {fileID: 0}
     - target: {fileID: 1745618004544940401, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 1745618004544940401, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2365582423792283428, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -2049,11 +2065,27 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI Down
       objectReference: {fileID: 0}
+    - target: {fileID: 1569268105970643999, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
+      propertyPath: m_Color.b
+      value: 0.5471698
+      objectReference: {fileID: 0}
+    - target: {fileID: 1569268105970643999, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
+      propertyPath: m_Color.g
+      value: 0.5471698
+      objectReference: {fileID: 0}
+    - target: {fileID: 1569268105970643999, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
+      propertyPath: m_Color.r
+      value: 0.5471698
+      objectReference: {fileID: 0}
     - target: {fileID: 1745618004544940401, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 1745618004544940401, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2365582423792283428, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
