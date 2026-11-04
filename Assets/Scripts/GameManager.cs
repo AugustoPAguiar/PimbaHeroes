@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
     private int qtdGreat = 0;
     private int qtdGood = 0;
     private int qtdMiss = 0;
-    private int porcentagemAcerto = 0;
+    private float porcentagemAcerto = 0;
 
     private Coroutine hideJudgmentRoutine;
 
@@ -118,8 +118,8 @@ public class GameManager : MonoBehaviour
                 qtdGood++;
                 break;
             default:
-                OnPlayerMiss();
                 qtdMiss++;
+                healthBar.ChangeHealth(missAmount);
                 break;
         }
         return quality;
@@ -135,6 +135,10 @@ public class GameManager : MonoBehaviour
 
     public void OnPlayerMiss()
     {
+        // deixou a nota passar
+        notasTotais++;
+        qtdMiss++;
+
         ShowJudgment(HitQuality.Miss);
         healthBar.ChangeHealth(missAmount);
     }
@@ -206,7 +210,11 @@ public class GameManager : MonoBehaviour
 
     private void Estatisticas()
     {
-        
+        int acertos = qtdPerfect + qtdGreat + qtdGood;
+
+        porcentagemAcerto = notasTotais > 0
+            ? (acertos / (float)notasTotais) * 100f
+            : 0f;
 
         string stats =
             $"Perfect: {qtdPerfect}\n" +
@@ -214,7 +222,7 @@ public class GameManager : MonoBehaviour
             $"Good: {qtdGood}\n" +
             $"Miss: {qtdMiss}\n" +
             $"Score: {score}\n\n" +
-            $"Acertos (%): {((qtdPerfect + qtdGreat + qtdGood - qtdMiss) / notasTotais) * 100}%";
+            $"Acertos: {porcentagemAcerto:F1}%";
 
         fimDeJogo.textoEstatística.text = stats;
     }
