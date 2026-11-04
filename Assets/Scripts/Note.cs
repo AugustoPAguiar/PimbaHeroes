@@ -2,28 +2,19 @@ using UnityEngine;
 
 public class Note : MonoBehaviour
 {
-    [Header("Nota")]
     public float speed = 9f;
     public KeyCode keyToPress;
     public bool isHold;
     public float holdDuration;
     public bool isEnemyNote;
-
-    [Header("Julgamento")]
-    public float missY = 1200f;
-    public float enemyHitY = 0f;
-
-    [Range(0f, 1f)]
-    public float enemyMissChance = 0.8f;
-
+    public float missY = 600f;
     public bool wasHit;
+    public RectTransform hitTarget;
 
     private RectTransform rect;
     private bool isBeingHeld;
     private float holdTimer;
     private float previousY;
-    public RectTransform hitTarget;
-    public float perfectTolerancePixels = 4f;
 
     private void Start()
     {
@@ -41,61 +32,15 @@ public class Note : MonoBehaviour
 
     private void Update()
     {
+        if (rect == null)
+            rect = GetComponent<RectTransform>();
+
         if (isEnemyNote)
         {
             UpdateEnemyNote();
             return;
         }
 
-        UpdatePlayerNote();
-    }
-
-    private void UpdateEnemyNote()
-    {
-        if (hitTarget == null)
-        {
-            Debug.LogError("Esta nota inimiga não tem Hit Target.", this);
-            return;
-        }
-
-        MoveUp();
-
-        float currentY = rect.anchoredPosition.y;
-
-        // Converte a posição do peixe para o mesmo espaço local da nota.
-        Vector3 targetCenter = hitTarget.TransformPoint(hitTarget.rect.center);
-        float targetY = rect.parent.InverseTransformPoint(targetCenter).y;
-
-        // A nota acerta quando cruza a altura do peixe.
-        if (previousY < targetY && currentY >= targetY)
-        {
-            JudgeEnemyNote();
-            return;
-        }
-
-        previousY = currentY;
-    }
-
-    private void JudgeEnemyNote()
-    {
-        wasHit = true;
-
-        bool enemyMissed = enemyMissChance >= 1f || (enemyMissChance > 0f && Random.value < enemyMissChance);
-
-        if (enemyMissed)
-        {
-            GameManager.Instance.OnEnemyMiss();
-        }
-        else
-        {
-            GameManager.Instance.OnEnemyHit();
-        }
-
-        Destroy(gameObject);
-    }
-
-    private void UpdatePlayerNote()
-    {
         if (wasHit && !isHold)
             return;
 
@@ -103,24 +48,38 @@ public class Note : MonoBehaviour
             MoveUp();
 
         if (!wasHit && rect.anchoredPosition.y > missY)
-        {
             Miss();
-            return;
-        }
 
-        if (isHold && isBeingHeld)
-        {
-            holdTimer += Time.deltaTime;
-
-            if (holdTimer >= holdDuration)
-                FinishHold();
-        }
+        if (isHold && isBeingHeld && (holdTimer += Time.deltaTime) >= holdDuration)
+            FinishHold();
     }
 
-    private void MoveUp()
+    private void UpdateEnemyNote()
     {
-        rect.anchoredPosition += Vector2.up * speed * Time.deltaTime;
+        MoveUp();
+        if (hitTarget == null)
+            return;
+
+        Vector3 targetCenter = hitTarget.TransformPoint(hitTarget.rect.center);
+        float targetY = rect.parent.InverseTransformPoint(targetCenter).y;
+        float currentY = rect.anchoredPosition.y;
+
+        if (previousY < targetY && currentY >= targetY)
+        {
+            bool enemyMissed = GameManager.Instance.RollEnemyMiss();
+            if (enemyMissed)
+                GameManager.Instance.OnEnemyMiss();
+            else
+            {
+                GameManager.Instance.OnEnemyHit();
+                Destroy(gameObject);
+            }
+        }
+
+        previousY = currentY;
     }
+
+    private void MoveUp() => rect.anchoredPosition += Vector2.up * speed * Time.deltaTime;
 
     public void Hit()
     {
@@ -128,16 +87,10 @@ public class Note : MonoBehaviour
             return;
 
         wasHit = true;
-
         if (isHold)
-        {
             isBeingHeld = true;
-        }
         else
-        {
-            GameManager.Instance.AddScore(10);
             Destroy(gameObject);
-        }
     }
 
     public void ReleaseHold()
@@ -149,18 +102,16 @@ public class Note : MonoBehaviour
     private void FinishHold()
     {
         isBeingHeld = false;
-
-        int points = 8 + Mathf.FloorToInt(holdTimer);
-        GameManager.Instance.AddScore(points);
-
+        GameManager.Instance.AddScore(8 + Mathf.FloorToInt(holdTimer));
         Destroy(gameObject);
     }
 
     public void Miss()
     {
-        if (isEnemyNote)
+        if (isEnemyNote || wasHit)
             return;
 
+        wasHit = true;
         GameManager.Instance.OnPlayerMiss();
         Destroy(gameObject);
     }
@@ -169,25 +120,15 @@ public class Note : MonoBehaviour
     {
         if (rect == null)
             rect = GetComponent<RectTransform>();
-
         if (hitTarget == null)
             return float.MaxValue;
 
         Canvas canvas = rect.GetComponentInParent<Canvas>();
-        Camera camera = canvas != null &&
-                        canvas.rootCanvas.renderMode != RenderMode.ScreenSpaceOverlay
+        Camera camera = canvas != null && canvas.rootCanvas.renderMode != RenderMode.ScreenSpaceOverlay
             ? canvas.rootCanvas.worldCamera
             : null;
-
-        Vector3 noteCenter = rect.TransformPoint(rect.rect.center);
-        Vector3 targetCenter = hitTarget.TransformPoint(hitTarget.rect.center);
-
-        Vector2 noteScreenPosition =
-            RectTransformUtility.WorldToScreenPoint(camera, noteCenter);
-
-        Vector2 targetScreenPosition =
-            RectTransformUtility.WorldToScreenPoint(camera, targetCenter);
-
-        return Vector2.Distance(noteScreenPosition, targetScreenPosition);
+        Vector2 notePosition = RectTransformUtility.WorldToScreenPoint(camera, rect.TransformPoint(rect.rect.center));
+        Vector2 targetPosition = RectTransformUtility.WorldToScreenPoint(camera, hitTarget.TransformPoint(hitTarget.rect.center));
+        return Vector2.Distance(notePosition, targetPosition);
     }
 }
