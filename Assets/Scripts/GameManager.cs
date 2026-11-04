@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
     private int qtdGood = 0;
     private int qtdMiss = 0;
     private float porcentagemAcerto = 0;
+    private bool jogoAcabou = false;
 
     private Coroutine hideJudgmentRoutine;
 
@@ -170,12 +171,44 @@ public class GameManager : MonoBehaviour
         hideJudgmentRoutine = null;
     }
 
+    public void OnAllNotesFinished()
+    {
+        Debug.Log("OnAlNotesFinis");
+
+        if (jogoAcabou) return;
+        jogoAcabou = true;
+        Debug.Log("Jogo = true");
+
+        if (musicSource != null && musicSource.isPlaying)
+            musicSource.Stop();
+
+        Debug.Log("Musica Parou");
+
+        if (spawner != null)
+            spawner.StopSong();
+
+        StartCoroutine(ShowResultAfterDelay());
+    }
+
+    private IEnumerator ShowResultAfterDelay()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        if (healthBar.health <= 0.5f)
+            PlayerWin();
+        else
+            PlayerLose();
+    }
+
     public bool RollEnemyMiss() => enemyMissChance >= 1f || (enemyMissChance > 0f && Random.value < enemyMissChance);
     public void OnEnemyHit() => healthBar.ChangeHealth(enemyHitAmount);
     public void OnEnemyMiss() => healthBar.ChangeHealth(enemyMissAmount);
 
     public void PlayerWin()
     {
+
+        jogoAcabou = true;
+
         spawner.gameObject.SetActive(false);
 
         fimDeJogo.SetUiText();
@@ -193,6 +226,8 @@ public class GameManager : MonoBehaviour
 
     public void PlayerLose()
     {
+        jogoAcabou = true;
+
         spawner.gameObject.SetActive(false);
 
         fimDeJogo.SetUiText();

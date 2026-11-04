@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -6,11 +7,14 @@ public class MenuPrincipal : MonoBehaviour
 {
     [SerializeField] private Button jogarBtn;
     [SerializeField] private Button coopBtn;
+    [SerializeField] private Button creditsBtn;
 
     void Start()
     {
         jogarBtn.onClick.AddListener(OnJogarClick);
         coopBtn.onClick.AddListener(OnCoopClick);
+
+        creditsBtn.onClick.AddListener(() => SceneManager.LoadSceneAsync("Creditos"));
     }
 
     void OnJogarClick()
@@ -22,5 +26,4 @@ public class MenuPrincipal : MonoBehaviour
     {
         SceneManager.LoadSceneAsync("3 - Menu Coop");
     }
-
 }

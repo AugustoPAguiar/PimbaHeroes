@@ -68,12 +68,20 @@ public class Note : MonoBehaviour
         {
             bool enemyMissed = GameManager.Instance.RollEnemyMiss();
             if (enemyMissed)
+            {
                 GameManager.Instance.OnEnemyMiss();
+            }
             else
             {
                 GameManager.Instance.OnEnemyHit();
                 Destroy(gameObject);
             }
+        }
+
+        if (currentY >= missY)
+        {
+            Destroy(gameObject);
+            return;
         }
 
         previousY = currentY;

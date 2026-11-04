@@ -98,6 +98,11 @@ public class NoteSpawner : MonoBehaviour
         {
             Debug.Log("Música terminou!");
             isPlaying = false;
+
+            // Avisa o GameManager que acabou tudo
+            if (GameManager.Instance != null)
+                GameManager.Instance.OnAllNotesFinished();
+
             return;
         }
 

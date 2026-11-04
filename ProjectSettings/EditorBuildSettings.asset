@@ -26,6 +26,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/History 3 - Quim Barreiros.unity
     guid: de764a0c7cca59748ba1555ae4923ac5
+  - enabled: 1
+    path: Assets/Scenes/Creditos.unity
+    guid: a23fbe615807c6c45b69044fd3e3c9f9
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

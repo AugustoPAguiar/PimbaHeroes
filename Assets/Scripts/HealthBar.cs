@@ -40,8 +40,11 @@ public class HealthBar : MonoBehaviour
 
     public void ChangeHealth(float amount)
     {
+        if (GameManager.Instance == null) return;
+
         health = Mathf.Clamp01(health - amount);
 
+        // Só chama se o jogo ainda não acabou
         if (health <= 0.05f)
         {
             GameManager.Instance.PlayerWin();
