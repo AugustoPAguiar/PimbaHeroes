@@ -476,6 +476,41 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6754705675687727152, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
   m_PrefabInstance: {fileID: 1403060760}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &936203695
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 936203696}
+  m_Layer: 0
+  m_Name: Qualidade Acerto
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &936203696
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 936203695}
+  m_LocalRotation: {x: 0, y: 0, z: 0.06261629, w: 0.9980377}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1974023594}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 7.18}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 48, y: -245}
+  m_SizeDelta: {x: 250, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &957184863
 GameObject:
   m_ObjectHideFlags: 0
@@ -573,11 +608,9 @@ MonoBehaviour:
   spawner: {fileID: 1519940913}
   healthBar: {fileID: 1144896666}
   musicSource: {fileID: 686627049}
-  playerInput: {fileID: 1975915132}
   currentSong: {fileID: 11400000, guid: edd5b8b935e73594f933ba655af2dc4a, type: 2}
-  enemyAccuracy: 0.95
   hitAmount: 0.035
-  missAmount: -0.05
+  missAmount: -0.03
   enemyHitAmount: -0.03
 --- !u!114 &1144896666
 MonoBehaviour:
@@ -1124,6 +1157,7 @@ RectTransform:
   - {fileID: 1896442230}
   - {fileID: 1403060761}
   - {fileID: 736379347}
+  - {fileID: 936203696}
   m_Father: {fileID: 93697899}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

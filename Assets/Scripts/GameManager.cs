@@ -8,14 +8,9 @@ public class GameManager : MonoBehaviour
     public NoteSpawner spawner;
     public HealthBar healthBar;
     public AudioSource musicSource;
-    public PlayerInput playerInput;
 
     [Header("Música desta Scene")]
-    public SongChart currentSong;   // ← só uma
-
-    [Header("Dificuldade do Inimigo")]
-    [Range(0.5f, 0.95f)]
-    public float enemyAccuracy = 0.75f;
+    public SongChart currentSong;
 
     [Header("Barra de Vida")]
     public float hitAmount = 0.035f;
@@ -31,12 +26,6 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        if (currentSong == null)
-        {
-            Debug.LogError("Nenhuma música atribuída no GameManager!");
-            return;
-        }
-
         StartSong(currentSong);
     }
 
@@ -57,6 +46,7 @@ public class GameManager : MonoBehaviour
         float quality = 1f - (distance / 90f);
         quality = Mathf.Clamp01(quality);
         healthBar.ChangeHealth(hitAmount * quality);
+
     }
 
     public void OnPlayerMiss()

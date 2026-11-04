@@ -14,7 +14,7 @@ public class Note : MonoBehaviour
     public float enemyHitY = 0f;
 
     [Range(0f, 1f)]
-    public float enemyMissChance = 0f;
+    public float enemyMissChance = 0.8f;
 
     public bool wasHit;
 
@@ -80,9 +80,7 @@ public class Note : MonoBehaviour
     {
         wasHit = true;
 
-        bool enemyMissed =
-            enemyMissChance >= 1f ||
-            (enemyMissChance > 0f && Random.value < enemyMissChance);
+        bool enemyMissed = enemyMissChance >= 1f || (enemyMissChance > 0f && Random.value < enemyMissChance);
 
         if (enemyMissed)
         {
