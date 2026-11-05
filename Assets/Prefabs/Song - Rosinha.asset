@@ -14,4 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SongChart
   songName: Descasco-lhe a banana
   music: {fileID: 8300000, guid: 3c309a55350780f46975aa460d638e86, type: 3}
-  sections: []
+  sections:
+  - sectionName: 
+    notes:
+    - time: 1
+      direction: 2
+      isHold: 0
+      holdDuration: 0
+    - time: 3
+      direction: 0
+      isHold: 0
+      holdDuration: 0
+    - time: 3
+      direction: 1
+      isHold: 0
+      holdDuration: 0
+    - time: 5
+      direction: 0
+      isHold: 0
+      holdDuration: 0
+    - time: 6
+      direction: 3
+      isHold: 0
+      holdDuration: 0

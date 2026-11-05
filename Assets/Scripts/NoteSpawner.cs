@@ -129,7 +129,7 @@ public class NoteSpawner : MonoBehaviour
 
     private void UpdateCharacterAnimations()
     {
-        if (currentTurn == Turn.Player)
+        if (currentTurn == Turn.Enemy)
         {
             PlayState(playerAnimator, playerIdleState);
             PlayState(enemyAnimator, enemyAttackState);

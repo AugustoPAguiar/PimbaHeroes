@@ -2109,10 +2109,10 @@ MonoBehaviour:
   travelTime: 1
   startY: -600
   canvas: {fileID: 1974023597}
-  playerAnimator: {fileID: 716410508}
+  playerAnimator: {fileID: 744792694}
   playerIdleState: Idle
   playerAttackState: Ataque
-  enemyAnimator: {fileID: 744792694}
+  enemyAnimator: {fileID: 716410508}
   enemyIdleState: Idle
   enemyAttackState: Ataque
 --- !u!1 &1548433061

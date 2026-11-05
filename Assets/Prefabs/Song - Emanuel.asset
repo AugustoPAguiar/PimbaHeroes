@@ -14,4 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SongChart
   songName: Nos Pimba
   music: {fileID: 8300000, guid: c5114b96c4c567e45ac015720d9f8f9a, type: 3}
-  sections: []
+  sections:
+  - sectionName: 
+    notes:
+    - time: 1.5
+      direction: 0
+      isHold: 0
+      holdDuration: 0
+    - time: 3
+      direction: 1
+      isHold: 0
+      holdDuration: 0
+    - time: 4
+      direction: 3
+      isHold: 0
+      holdDuration: 0
+    - time: 5
+      direction: 2
+      isHold: 0
+      holdDuration: 0

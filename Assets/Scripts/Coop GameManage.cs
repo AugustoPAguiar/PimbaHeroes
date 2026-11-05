@@ -4,11 +4,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameManagerCoop : MonoBehaviour
+public class CoopGameManager : MonoBehaviour
 {
     public enum HitQuality { Perfect, Great, Good, Miss }
 
-    public static GameManagerCoop Instance;
+    public static CoopGameManager Instance;
 
     [Header("Referências")]
     public NoteSpawner spawner;

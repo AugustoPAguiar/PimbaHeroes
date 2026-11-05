@@ -1426,11 +1426,11 @@ MonoBehaviour:
   startY: -600
   canvas: {fileID: 1974023597}
   playerAnimator: {fileID: 547051266}
-  playerIdleState: Ataque
-  playerAttackState: Idle
+  playerIdleState: Idle
+  playerAttackState: Ataque
   enemyAnimator: {fileID: 943296676}
-  enemyIdleState: Ataque
-  enemyAttackState: Idle
+  enemyIdleState: Idle
+  enemyAttackState: Ataque
 --- !u!1 &1548433061
 GameObject:
   m_ObjectHideFlags: 0
