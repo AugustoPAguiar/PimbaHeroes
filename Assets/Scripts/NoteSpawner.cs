@@ -169,7 +169,7 @@ public class NoteSpawner : MonoBehaviour
         }
 
         if (currentNotes.Count == 0 &&
-            timeInSection > GetLastNoteTime() + travelTime + 0.8f)
+            timeInSection > GetLastNoteTime() + travelTime)
         {
             NextTurn();
         }
