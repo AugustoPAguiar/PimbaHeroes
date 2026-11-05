@@ -1665,10 +1665,10 @@ MonoBehaviour:
   goodPoints: 5
   currentSong: {fileID: 11400000, guid: fd4ef39bb84c2e34a8d281100e72e16e, type: 2}
   hitAmount: 0.02
-  missAmount: -0.015
-  enemyHitAmount: -0.015
-  enemyMissAmount: 0.02
-  enemyMissChance: 0.25
+  missAmount: -0.01
+  enemyHitAmount: -0.02
+  enemyMissAmount: 0.01
+  enemyMissChance: 0.1
   fimDeJogo: {fileID: 1144896667}
 --- !u!114 &1144896666
 MonoBehaviour:
@@ -1703,7 +1703,7 @@ MonoBehaviour:
   uiDerrota: {fileID: 2140485887}
   btnContinuar: {fileID: 2140485888}
   btnVoltar: {fileID: 2140485885}
-  proxFase: History 3 - Quim Barreiros
+  proxFase: Creditos
   estatistica:
   - {fileID: 2140485886}
   - {fileID: 2140485889}

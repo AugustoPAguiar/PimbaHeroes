@@ -1603,7 +1603,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: bf0ffad92b5b7944f9681410cb3bda80, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.033
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -2510,8 +2510,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1144896663}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 249.08095, y: 232.49016, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2550,7 +2550,7 @@ MonoBehaviour:
   uiDerrota: {fileID: 66068520}
   btnContinuar: {fileID: 1690898096}
   btnVoltar: {fileID: 1690898096}
-  proxFase: 3 - Menu Coop
+  proxFase: 2 - Menu Coop
   estatistica:
   - {fileID: 1181818544}
   - {fileID: 300407763}
@@ -2587,8 +2587,8 @@ MonoBehaviour:
   currentSong: {fileID: 11400000, guid: fd4ef39bb84c2e34a8d281100e72e16e, type: 2}
   P1hitAmount: 0.02
   P1missAmount: -0.015
-  P2hitAmount: -0.015
-  P2MissAmount: 0.02
+  P2hitAmount: -0.02
+  P2MissAmount: 0.015
   enemyMissChance: 0.8
   fimDeJogo: {fileID: 1144896667}
 --- !u!1 &1179537225
@@ -3501,8 +3501,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1519940911}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 249.08095, y: 232.49016, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4250,8 +4250,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1975915130}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 249.08095, y: 232.49016, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

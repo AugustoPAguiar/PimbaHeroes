@@ -15,10 +15,10 @@ EditorBuildSettings:
     path: Assets/Scenes/History 1 - Emanuel.unity
     guid: 7512004a32f6bbe458ae1e8999c3df59
   - enabled: 1
-    path: Assets/Scenes/History 2 - Rosinha.unity
+    path: Assets/Scenes/History 3 - Rosinha.unity
     guid: 7ce97e837fc4e5249819c4d40c6cc57e
   - enabled: 1
-    path: Assets/Scenes/History 3 - Quim Barreiros.unity
+    path: Assets/Scenes/History 2 - Quim Barreiros.unity
     guid: de764a0c7cca59748ba1555ae4923ac5
   - enabled: 1
     path: Assets/Scenes/Creditos.unity
@@ -26,6 +26,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/EasterEgg 1.unity
     guid: f1a821c1df9dc87438bb6eb6d76ffcc5
+  - enabled: 1
+    path: Assets/Scenes/EasterEgg 2.unity
+    guid: 31f580201f177ff4e97c369a663e96d2
+  - enabled: 1
+    path: Assets/Scenes/Multiplyer - Versus.unity
+    guid: 6e589c8d03242e347b5f53c990c35569
+  - enabled: 1
+    path: Assets/Scenes/Multiplyer - Coop.unity
+    guid: ef8aff2dc5aa46a4982c3487e895557c
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

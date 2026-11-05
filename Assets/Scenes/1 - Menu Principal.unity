@@ -1106,7 +1106,7 @@ MonoBehaviour:
   musicaMenu: {fileID: 8300000, guid: 2bdb1757409e5df42b090551e3c096c8, type: 3}
   cenasComMusica:
   - 1 - Menu Principal
-  - 3 - Menu Coop
+  - 2 - Menu Coop
   - Creditos
 --- !u!1 &1613459082
 GameObject:

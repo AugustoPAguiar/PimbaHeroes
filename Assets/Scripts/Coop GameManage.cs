@@ -282,7 +282,7 @@ public class CoopGameManager : MonoBehaviour
 
     public void RightPlayerWin()
     {
-        jogoAcabou = true;
+
 
         if (coopSpawner != null) coopSpawner.StopSong();
 
@@ -310,7 +310,7 @@ public class CoopGameManager : MonoBehaviour
         porcentagemAcertoP2 = notasTotaisP2 > 0 ? (acertosP2 / (float)notasTotaisP2) * 100f : 0f;
 
         string statsP1 =
-            $"Player 1\n\n" +
+            $"Player 2\n\n" +
             $"Perfect:{qtdPerfectP1}\n\n" +
             $"Great:{qtdGreatP1}\n\n" +
             $"Good:{qtdGoodP1}\n\n" +
@@ -319,7 +319,7 @@ public class CoopGameManager : MonoBehaviour
             $"Acertos:{porcentagemAcertoP1:F1}%";
 
         string statsP2 =
-            $"Player 2\n\n" +
+            $"Player 1\n\n" +
             $"Perfect:{qtdPerfectP2}\n\n" +
             $"Great:{qtdGreatP2}\n\n" +
             $"Good:{qtdGoodP2}\n\n" +
@@ -327,7 +327,7 @@ public class CoopGameManager : MonoBehaviour
             $"Score:{scoreP2}\n\n\n" +
             $"Acertos:{porcentagemAcertoP2:F1}%";
 
-        fimDeJogo.estatistica[1].text = statsP1;
-        fimDeJogo.estatistica[2].text = statsP2;
+        fimDeJogo.estatistica[1].text = statsP2;
+        fimDeJogo.estatistica[2].text = statsP1;
     }
 }

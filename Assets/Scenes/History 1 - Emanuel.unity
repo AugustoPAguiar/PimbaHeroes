@@ -1126,9 +1126,9 @@ MonoBehaviour:
   goodPoints: 5
   currentSong: {fileID: 11400000, guid: 1c7c51ee53ed3e24cad7d5cc054c42b0, type: 2}
   hitAmount: 0.02
-  missAmount: -0.015
-  enemyHitAmount: -0.015
-  enemyMissAmount: 0.02
+  missAmount: -0.01
+  enemyHitAmount: -0.02
+  enemyMissAmount: 0.01
   enemyMissChance: 0.35
   fimDeJogo: {fileID: 1144896667}
 --- !u!114 &1144896666
@@ -1164,7 +1164,7 @@ MonoBehaviour:
   uiDerrota: {fileID: 1510219279}
   btnContinuar: {fileID: 1001759960}
   btnVoltar: {fileID: 1889529462}
-  proxFase: History 2 - Rosinha
+  proxFase: History 2 - Quim Barreiros
   estatistica:
   - {fileID: 1279571960}
   - {fileID: 742298508}

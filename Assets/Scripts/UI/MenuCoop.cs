@@ -11,23 +11,8 @@ public class MenuCoop : MonoBehaviour
 
     void Start()
     {
-        backBtn.onClick.AddListener(OnBackClicked);
-        versusBtn.onClick.AddListener(OnVersusMode);
-        coopBtn.onClick.AddListener(OnCoopMode);
-    }
-
-    void OnBackClicked()
-    {
-        SceneManager.LoadSceneAsync("1 - Menu Principal");
-    }
-
-    void OnVersusMode()
-    {
-        //TODO
-    }
-
-    void OnCoopMode()
-    {
-        //TODO
+        backBtn.onClick.AddListener(() => SceneManager.LoadSceneAsync("1 - Menu Principal"));
+        versusBtn.onClick.AddListener(() => SceneManager.LoadSceneAsync("Multiplyer - Versus"));
+        // coopBtn.onClick.AddListener();
     }
 }
