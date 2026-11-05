@@ -6,46 +6,32 @@ public class CoopPlayerInput : MonoBehaviour
 
     private void Update()
     {
-        CoopGameManager manager = CoopGameManager.Instance;
-        if (manager == null || manager.MatchEnded || manager.coopSpawner == null || !manager.coopSpawner.IsRunning)
-            return;
+        // jogar no AW
+        CheckInput(KeyCode.W);
+        CheckInput(KeyCode.D);
 
-        if (manager.CurrentPlayerNumber == 1)
-        {
-            CheckInput(KeyCode.LeftArrow, KeyCode.A, 1);
-            CheckInput(KeyCode.DownArrow, KeyCode.S, 1);
-            CheckInput(KeyCode.UpArrow, KeyCode.W, 1);
-            CheckInput(KeyCode.RightArrow, KeyCode.D, 1);
-            ReleaseHold(KeyCode.LeftArrow, KeyCode.A, 1);
-            ReleaseHold(KeyCode.DownArrow, KeyCode.S, 1);
-            ReleaseHold(KeyCode.UpArrow, KeyCode.W, 1);
-            ReleaseHold(KeyCode.RightArrow, KeyCode.D, 1);
-        }
-        else
-        {
-            CheckInput(KeyCode.A, KeyCode.A, 2);
-            CheckInput(KeyCode.S, KeyCode.S, 2);
-            CheckInput(KeyCode.W, KeyCode.W, 2);
-            CheckInput(KeyCode.D, KeyCode.D, 2);
-            ReleaseHold(KeyCode.A, KeyCode.A, 2);
-            ReleaseHold(KeyCode.S, KeyCode.S, 2);
-            ReleaseHold(KeyCode.W, KeyCode.W, 2);
-            ReleaseHold(KeyCode.D, KeyCode.D, 2);
-        }
+        // jogar nas Down e Right seta :)
+        CheckInput(KeyCode.DownArrow);
+        CheckInput(KeyCode.LeftArrow);
     }
 
-    private void CheckInput(KeyCode controlKey, KeyCode laneKey, int playerNumber)
+    private void CheckInput(KeyCode key)
     {
-        if (!Input.GetKeyDown(controlKey)) return;
+        if (!Input.GetKeyDown(key))
+            return;
 
-        CoopNote closestNote = null;
+        Note[] notes = FindObjectsByType<Note>(FindObjectsSortMode.None);
+
+        Note closestNote = null;
         float closestDistance = float.MaxValue;
-        foreach (CoopNote note in FindObjectsByType<CoopNote>(FindObjectsSortMode.None))
+
+        foreach (Note note in notes)
         {
-            if (note == null || note.playerNumber != playerNumber || note.keyToPress != laneKey)
+            if (note.isEnemyNote || note.wasHit)
                 continue;
 
-            float distance = note.DistanceToTargetPixels();
+            float distance = note.GetDistanceToHitTargetPixels();
+
             if (distance <= hitWindowPixels && distance < closestDistance)
             {
                 closestNote = note;
@@ -53,15 +39,10 @@ public class CoopPlayerInput : MonoBehaviour
             }
         }
 
-        if (closestNote != null && closestNote.Hit())
-            CoopGameManager.Instance.OnPlayerHit(closestDistance, playerNumber);
-    }
+        if (closestNote == null)
+            return;
 
-    private void ReleaseHold(KeyCode controlKey, KeyCode laneKey, int playerNumber)
-    {
-        if (!Input.GetKeyUp(controlKey)) return;
-        foreach (CoopNote note in FindObjectsByType<CoopNote>(FindObjectsSortMode.None))
-            if (note != null && note.playerNumber == playerNumber && note.keyToPress == laneKey)
-                note.ReleaseHold();
+        closestNote.Hit();
+        GameManager.Instance.OnPlayerHit(closestDistance, closestNote.keyToPress);
     }
 }

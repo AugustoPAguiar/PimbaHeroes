@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     public Sprite missSprite;
     public float judgmentDisplayDuration = 0.7f;
 
-    [Header("Feedback visual dos acertos (associar no Inspector)")]
+    [Header("Feedback visual dos acertos - esquerda, baixo, cima, direita")]
     public GameObject[] playerHitDirections = new GameObject[4]; // esquerda, baixo, cima, direita
     public GameObject[] enemyHitDirections = new GameObject[4]; // esquerda, baixo, cima, direita
 
@@ -232,7 +232,22 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
         if (judgment != null)
+        {
+            // Fade out opcional (mais bonito)
+            float fadeTime = 0.15f;
+            float timer = 0f;
+            Color startColor = judgment.color;
+
+            while (timer < fadeTime)
+            {
+                timer += Time.deltaTime;
+                float t = timer / fadeTime;
+                judgment.color = new Color(startColor.r, startColor.g, startColor.b, 1f - t);
+                yield return null;
+            }
+
             Destroy(judgment.gameObject);
+        }
     }
 
     public void OnAllNotesFinished()

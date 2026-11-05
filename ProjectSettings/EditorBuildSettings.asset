@@ -30,7 +30,7 @@ EditorBuildSettings:
     path: Assets/Scenes/EasterEgg 2.unity
     guid: 31f580201f177ff4e97c369a663e96d2
   - enabled: 1
-    path: Assets/Scenes/Multiplyer - Versus.unity
+    path: Assets/Scenes/Multiplayer - Versus.unity
     guid: 6e589c8d03242e347b5f53c990c35569
   - enabled: 1
     path: Assets/Scenes/Multiplyer - Coop.unity

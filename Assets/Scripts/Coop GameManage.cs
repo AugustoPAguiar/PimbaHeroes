@@ -23,7 +23,6 @@ public class CoopGameManager : MonoBehaviour
     public Sprite goodSprite;
     public Sprite missSprite;
 
-    public float judgmentDisplayDuration = 0.7f;
     public float perfectTolerance = 8f;
     public float greatTolerance = 28f;
     public float goodTolerance = 80f;
@@ -197,38 +196,76 @@ public class CoopGameManager : MonoBehaviour
 
     private void ShowJudgment(HitQuality quality, int playerNumber)
     {
-        Image display = playerNumber == 1 ? player1judgmentDisplay : player2judgmentDisplay;
-        if (display == null)
-            return;
+        // Pega o display original (template)
+        Image template = playerNumber == 1 ? player1judgmentDisplay : player2judgmentDisplay;
+        if (template == null) return;
+
+        // Instancia uma cópia
+        Image display = Instantiate(template, template.transform.parent);
+        display.gameObject.SetActive(true);
+
+        // Posição com offset aleatório
+        Vector3 randomOffset = new Vector3(Random.Range(-20f, 20f), Random.Range(-15f, 15f), 0f);
+        display.transform.localPosition = template.transform.localPosition + randomOffset;
+
+        // Configura sprite, escala e duração
+        float scale = 1f;
+        float duration = 0.6f; // tempo padrão mais curto
 
         switch (quality)
         {
-            case HitQuality.Perfect: display.sprite = perfectSprite; break;
-            case HitQuality.Great: display.sprite = greatSprite; break;
-            case HitQuality.Good: display.sprite = goodSprite; break;
-            case HitQuality.Miss: display.sprite = missSprite; break;
+            case HitQuality.Perfect:
+                display.sprite = perfectSprite;
+                scale = 1.75f;
+                duration = 0.85f;   // Perfect some mais rápido agora
+                break;
+            case HitQuality.Great:
+                display.sprite = greatSprite;
+                scale = 1.25f;
+                duration = 0.7f;
+                break;
+            case HitQuality.Good:
+                display.sprite = goodSprite;
+                scale = 1f;
+                duration = 0.55f;
+                break;
+            case HitQuality.Miss:
+                display.sprite = missSprite;
+                scale = 0.75f;
+                duration = 0.45f;
+                break;
         }
 
+        display.transform.localScale = new Vector3(scale, scale, 1f);
+        display.transform.localEulerAngles = new Vector3(0f, 0f, Random.Range(-15f, 15f));
+        display.color = Color.white;
         display.enabled = display.sprite != null;
-        display.gameObject.SetActive(true);
-        if (playerNumber == 1)
-        {
-            if (hideJudgmentRoutineP1 != null) StopCoroutine(hideJudgmentRoutineP1);
-            hideJudgmentRoutineP1 = StartCoroutine(HideJudgmentAfterDelay(display, playerNumber));
-        }
-        else
-        {
-            if (hideJudgmentRoutineP2 != null) StopCoroutine(hideJudgmentRoutineP2);
-            hideJudgmentRoutineP2 = StartCoroutine(HideJudgmentAfterDelay(display, playerNumber));
-        }
+
+        // Inicia a coroutine que destrói o objeto depois do tempo
+        StartCoroutine(HideAndDestroyJudgment(display, duration));
     }
 
-    private IEnumerator HideJudgmentAfterDelay(Image display, int playerNumber)
+    private IEnumerator HideAndDestroyJudgment(Image display, float duration)
     {
-        yield return new WaitForSeconds(judgmentDisplayDuration);
-        if (display != null) display.enabled = false;
-        if (playerNumber == 1) hideJudgmentRoutineP1 = null;
-        else hideJudgmentRoutineP2 = null;
+        yield return new WaitForSeconds(duration);
+
+        if (display != null)
+        {
+            // Fade out opcional (mais bonito)
+            float fadeTime = 0.15f;
+            float timer = 0f;
+            Color startColor = display.color;
+
+            while (timer < fadeTime)
+            {
+                timer += Time.deltaTime;
+                float t = timer / fadeTime;
+                display.color = new Color(startColor.r, startColor.g, startColor.b, 1f - t);
+                yield return null;
+            }
+
+            Destroy(display.gameObject);
+        }
     }
 
     public void OnAllNotesFinished()
