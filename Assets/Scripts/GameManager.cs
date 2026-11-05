@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -23,6 +24,10 @@ public class GameManager : MonoBehaviour
     public Sprite goodSprite;
     public Sprite missSprite;
     public float judgmentDisplayDuration = 0.7f;
+
+    [Header("Feedback visual dos acertos (associar no Inspector)")]
+    public GameObject[] playerHitDirections = new GameObject[4]; // esquerda, baixo, cima, direita
+    public GameObject[] enemyHitDirections = new GameObject[4]; // esquerda, baixo, cima, direita
 
     [Header("Qualidade dos acertos (distância em pixels)")]
     public float perfectTolerance = 8f;
@@ -58,11 +63,10 @@ public class GameManager : MonoBehaviour
     private bool jogoAcabou = false;
 
     private Coroutine hideJudgmentRoutine;
+    private readonly Dictionary<GameObject, float> hitFeedbackExpirations = new Dictionary<GameObject, float>();
 
     private void Awake()
     {
-        judgmentDisplay.gameObject.SetActive(false);
-
         Instance = this;
         if (judgmentDisplay == null && canvas != null)
         {
@@ -76,13 +80,42 @@ public class GameManager : MonoBehaviour
             judgmentDisplay.raycastTarget = false;
             judgmentDisplay.enabled = false;
         }
+
+        SetHitFeedbackActive(playerHitDirections, false);
+        SetHitFeedbackActive(enemyHitDirections, false);
+    }
+
+    private void Update()
+    {
+        if (hitFeedbackExpirations.Count == 0)
+            return;
+
+        List<GameObject> expired = null;
+        foreach (KeyValuePair<GameObject, float> item in hitFeedbackExpirations)
+        {
+            if (Time.time < item.Value)
+                continue;
+
+            if (item.Key != null)
+                item.Key.SetActive(false);
+            if (expired == null)
+                expired = new List<GameObject>();
+            expired.Add(item.Key);
+        }
+
+        if (expired != null)
+            foreach (GameObject visual in expired)
+                hitFeedbackExpirations.Remove(visual);
     }
 
     private void Start() => StartSong(currentSong);
 
     public void StartSong(SongChart chart)
     {
+        judgmentDisplay.gameObject.SetActive(false);
+
         score = 0;
+        
         if (spawner != null && chart != null)
             spawner.StartSong(chart, musicSource);
     }
@@ -93,8 +126,9 @@ public class GameManager : MonoBehaviour
         Debug.Log("Pontuação: " + score);
     }
 
-    public HitQuality OnPlayerHit(float distance)
+    public HitQuality OnPlayerHit(float distance, KeyCode laneKey = KeyCode.None)
     {
+        ShowHitFeedback(false, laneKey);
         judgmentDisplay.gameObject.SetActive(true);
 
         notasTotais++;
@@ -149,26 +183,55 @@ public class GameManager : MonoBehaviour
         if (judgmentDisplay == null)
             return;
 
+        Image newJudgment = Instantiate(judgmentDisplay, judgmentDisplay.transform.parent);
+        newJudgment.color = Color.white;
+
+        Vector3 randomOffset = new Vector3(Random.Range(-20f, 20f), Random.Range(-15f, 15f), 0f);
+        newJudgment.transform.localPosition = judgmentDisplay.transform.localPosition + randomOffset;
+
+        float scale = 1f;
+        float duration = 0.5f;
+
         switch (quality)
         {
-            case HitQuality.Perfect: judgmentDisplay.sprite = perfectSprite; break;
-            case HitQuality.Great: judgmentDisplay.sprite = greatSprite; break;
-            case HitQuality.Good: judgmentDisplay.sprite = goodSprite; break;
-            case HitQuality.Miss: judgmentDisplay.sprite = missSprite; break;
+            case HitQuality.Perfect:
+                newJudgment.sprite = perfectSprite;
+                scale = 1.75f;
+                duration = 1.3f;
+                break;
+            case HitQuality.Great:
+                newJudgment.sprite = greatSprite;
+                scale = 1.25f;
+                duration = 1.0f;
+                break;
+            case HitQuality.Good:
+                newJudgment.sprite = goodSprite;
+                scale = 1f;
+                duration = 0.7f;
+                break;
+            case HitQuality.Miss:
+                newJudgment.sprite = missSprite;
+                scale = 0.75f;
+                duration = 0.5f;
+                break;
         }
 
-        judgmentDisplay.enabled = judgmentDisplay.sprite != null;
-        if (hideJudgmentRoutine != null)
-            StopCoroutine(hideJudgmentRoutine);
-        hideJudgmentRoutine = StartCoroutine(HideJudgmentAfterDelay());
+        newJudgment.transform.localScale = new Vector3(scale, scale, 1f);
+
+        float randomZ = Random.Range(-15f, 15f);
+        newJudgment.transform.localEulerAngles = new Vector3(0f, 0f, randomZ);
+
+        newJudgment.enabled = true;
+
+        StartCoroutine(HideAndDestroyJudgment(newJudgment, duration));
     }
 
-    private IEnumerator HideJudgmentAfterDelay()
+    private IEnumerator HideAndDestroyJudgment(Image judgment, float delay)
     {
-        yield return new WaitForSeconds(judgmentDisplayDuration);
-        if (judgmentDisplay != null)
-            judgmentDisplay.enabled = false;
-        hideJudgmentRoutine = null;
+        yield return new WaitForSeconds(delay);
+
+        if (judgment != null)
+            Destroy(judgment.gameObject);
     }
 
     public void OnAllNotesFinished()
@@ -201,8 +264,39 @@ public class GameManager : MonoBehaviour
     }
 
     public bool RollEnemyMiss() => enemyMissChance >= 1f || (enemyMissChance > 0f && Random.value < enemyMissChance);
-    public void OnEnemyHit() => healthBar.ChangeHealth(enemyHitAmount);
+    public void OnEnemyHit(KeyCode laneKey = KeyCode.None)
+    {
+        ShowHitFeedback(true, laneKey);
+        healthBar.ChangeHealth(enemyHitAmount);
+    }
     public void OnEnemyMiss() => healthBar.ChangeHealth(enemyMissAmount);
+
+    private void ShowHitFeedback(bool enemy, KeyCode laneKey)
+    {
+        GameObject[] directions = enemy ? enemyHitDirections : playerHitDirections;
+        int directionIndex = -1;
+        if (laneKey == KeyCode.A || laneKey == KeyCode.LeftArrow) directionIndex = 0;
+        else if (laneKey == KeyCode.S || laneKey == KeyCode.DownArrow) directionIndex = 1;
+        else if (laneKey == KeyCode.W || laneKey == KeyCode.UpArrow) directionIndex = 2;
+        else if (laneKey == KeyCode.D || laneKey == KeyCode.RightArrow) directionIndex = 3;
+        if (directions != null && directionIndex >= 0 && directionIndex < directions.Length && directions[directionIndex] != null)
+            ShowHitFeedbackObject(directions[directionIndex]);
+    }
+
+    private void ShowHitFeedbackObject(GameObject visual)
+    {
+        visual.SetActive(true);
+        hitFeedbackExpirations[visual] = Time.time + 0.7f;
+    }
+
+    private static void SetHitFeedbackActive(GameObject[] directions, bool active)
+    {
+        if (directions == null)
+            return;
+
+        foreach (GameObject direction in directions)
+            direction.SetActive(active);
+    }
 
     public void PlayerWin()
     {

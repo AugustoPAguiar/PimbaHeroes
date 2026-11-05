@@ -73,7 +73,7 @@ public class Note : MonoBehaviour
             }
             else
             {
-                GameManager.Instance.OnEnemyHit();
+                GameManager.Instance.OnEnemyHit(keyToPress);
                 Destroy(gameObject);
             }
         }

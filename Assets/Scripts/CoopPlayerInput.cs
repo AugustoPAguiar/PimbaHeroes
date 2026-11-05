@@ -72,7 +72,7 @@ public class CoopPlayerInput : MonoBehaviour
 
         closestNote.Hit();
         if (GameManager.Instance != null)
-            GameManager.Instance.OnPlayerHit(closestDistance);
+            GameManager.Instance.OnPlayerHit(closestDistance, closestNote.keyToPress);
     }
 
     private void ReleaseHold(KeyCode laneKey)

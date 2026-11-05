@@ -33,6 +33,14 @@ public class NoteSpawner : MonoBehaviour
     public float startY = -600f;
     public Canvas canvas;
 
+    [Header("Animações dos personagens")]
+    public Animator playerAnimator;
+    public string playerIdleState;
+    public string playerAttackState;
+    public Animator enemyAnimator;
+    public string enemyIdleState;
+    public string enemyAttackState;
+
     private SongChart currentChart;
     private AudioSource audioSource;
     private int currentSectionIndex;
@@ -113,9 +121,32 @@ public class NoteSpawner : MonoBehaviour
         currentNotes.Sort((a, b) => a.time.CompareTo(b.time));
 
         sectionStartTime = audioSource.time;
+        UpdateCharacterAnimations();
 
         string turnName = currentTurn == Turn.Player ? "PLAYER" : "INIMIGO";
         Debug.Log($"Iniciando Take {currentSectionIndex + 1} - Vez do {turnName}");
+    }
+
+    private void UpdateCharacterAnimations()
+    {
+        if (currentTurn == Turn.Player)
+        {
+            PlayState(playerAnimator, playerIdleState);
+            PlayState(enemyAnimator, enemyAttackState);
+        }
+        else
+        {
+            PlayState(enemyAnimator, enemyIdleState);
+            PlayState(playerAnimator, playerAttackState);
+        }
+    }
+
+    private static void PlayState(Animator animator, string stateName)
+    {
+        if (animator == null || string.IsNullOrWhiteSpace(stateName))
+            return;
+
+        animator.Play(stateName, 0, 0f);
     }
 
     private void Update()
