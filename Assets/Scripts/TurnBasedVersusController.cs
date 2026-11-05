@@ -227,9 +227,6 @@ public class TurnBasedVersusController : MonoBehaviour
         if (end == null) { Debug.Log($"Versus terminou. Pontos: {scores[0]} x {scores[1]}"); return; }
 
         end.uiPrincipal.gameObject.SetActive(false);
-        end.uiFimDeJogo.gameObject.SetActive(true);
-        end.textoFinal.text = winner < 0 ? "<color=yellow>EMPATE</color>" : $"<color=green>JOGADOR {winner + 1} VENCEU</color>";
-        end.textoEstatística.text = Stats(0) + "\n\n" + Stats(1);
         end.btnContinuar.GetComponentInChildren<TMP_Text>().text = "Menu";
         end.btnContinuar.onClick.RemoveAllListeners();
         end.btnContinuar.onClick.AddListener(() => SceneManager.LoadScene("1 - Menu Principal"));

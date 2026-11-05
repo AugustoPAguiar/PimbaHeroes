@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Song - Quim Barreiros
   m_EditorClassIdentifier: Assembly-CSharp::SongChart
   songName: Os bichos da fazenda
-  music: {fileID: 8300000, guid: bf0ffad92b5b7944f9681410cb3bda80, type: 3}
+  music: {fileID: 8300000, guid: 39af723830955cd4095100cf23b19d7e, type: 3}
   sections:
   - sectionName: Take 1
     notes:

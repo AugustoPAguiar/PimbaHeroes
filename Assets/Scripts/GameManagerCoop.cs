@@ -217,9 +217,7 @@ public class GameManagerCoop : MonoBehaviour
 
         spawner.gameObject.SetActive(false);
 
-        fimDeJogo.SetUiText();
-
-        fimDeJogo.textoFinal.text = "<color=green>Jogador 1 Venceu!</color>";
+        // TODO
 
         Estatisticas();
 
@@ -234,9 +232,7 @@ public class GameManagerCoop : MonoBehaviour
 
         spawner.gameObject.SetActive(false);
 
-        fimDeJogo.SetUiText();
-
-        fimDeJogo.textoFinal.text = "<color=red>Jogador 2 Venceu!</color>";
+        //TODO
 
         Estatisticas();
 
@@ -262,6 +258,9 @@ public class GameManagerCoop : MonoBehaviour
             $"P1 - Score: {scoreP1}          |    P2 - Score: {scoreP2}\n\n" +
             $"P1 - Acertos: {porcentagemAcertoP1:F1}%      |   P2 - Acertos{porcentagemAcertoP2:F1}%";
 
-        fimDeJogo.textoEstatística.text = stats;
+        foreach(var info in fimDeJogo.estatistica)
+        {
+            info.text = stats;
+        }
     }
 }

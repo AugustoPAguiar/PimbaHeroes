@@ -10,15 +10,10 @@ public class EndGame : MonoBehaviour
 
     [Header("Fim de Jogo")]
     public Canvas uiPrincipal;
-    public Canvas uiFimDeJogo;
-    public TMP_Text textoFinal;
-    public TMP_Text textoEstatística;
+    public GameObject uiVitoria;
+    public GameObject uiDerrota;
     public Button btnContinuar;
+    public Button btnVoltar;
     public string proxFase;
-
-    public void SetUiText()
-    {
-        uiPrincipal.gameObject.SetActive(false);
-        uiFimDeJogo.gameObject.SetActive(true);
-    }
+    public TMP_Text[] estatistica;
 }

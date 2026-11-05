@@ -787,7 +787,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.15
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1155,6 +1155,7 @@ MonoBehaviour:
   jogarBtn: {fileID: 174357562}
   coopBtn: {fileID: 365715268}
   creditsBtn: {fileID: 1853915268}
+  exitBtn: {fileID: 147646385}
   vaca1: {fileID: 1893502995}
   vaca2: {fileID: 2107701318}
 --- !u!1 &1853915266

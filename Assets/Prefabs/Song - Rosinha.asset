@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d1aa4eb6f5b9cf49ac945bf32dcc1d1, type: 3}
   m_Name: Song - Rosinha
   m_EditorClassIdentifier: Assembly-CSharp::SongChart
-  songName: 
-  music: {fileID: 0}
-  notes: []
+  songName: Descasco-lhe a banana
+  music: {fileID: 8300000, guid: 3c309a55350780f46975aa460d638e86, type: 3}
+  sections: []

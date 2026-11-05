@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d1aa4eb6f5b9cf49ac945bf32dcc1d1, type: 3}
   m_Name: Song - Emanuel
   m_EditorClassIdentifier: Assembly-CSharp::SongChart
-  songName: 
-  music: {fileID: 0}
-  notes: []
+  songName: Nos Pimba
+  music: {fileID: 8300000, guid: c5114b96c4c567e45ac015720d9f8f9a, type: 3}
+  sections: []

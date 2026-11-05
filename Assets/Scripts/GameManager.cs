@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Principal;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -305,13 +306,10 @@ public class GameManager : MonoBehaviour
 
         spawner.gameObject.SetActive(false);
 
-        fimDeJogo.SetUiText();
-
-        fimDeJogo.textoFinal.text = "<color=green>VITÓRIA</color>";
+        fimDeJogo.uiPrincipal.gameObject.SetActive(false);
+        fimDeJogo.uiVitoria.gameObject.SetActive(true);
 
         Estatisticas();
-
-        fimDeJogo.btnContinuar.GetComponentInChildren<TMP_Text>().text = "Continuar";
 
         fimDeJogo.btnContinuar.onClick.AddListener(() => { SceneManager.LoadSceneAsync(fimDeJogo.proxFase); });
 
@@ -324,13 +322,10 @@ public class GameManager : MonoBehaviour
 
         spawner.gameObject.SetActive(false);
 
-        fimDeJogo.SetUiText();
-
-        fimDeJogo.textoFinal.text = "<color=red>DERROTA</color>";
+        fimDeJogo.uiPrincipal.gameObject.SetActive(false);
+        fimDeJogo.uiVitoria.gameObject.SetActive(true);
 
         Estatisticas();
-
-        fimDeJogo.btnContinuar.GetComponentInChildren<TMP_Text>().text = "Voltar";
 
         fimDeJogo.btnContinuar.onClick.AddListener(() => { SceneManager.LoadSceneAsync("1 - Menu Principal"); });
 
@@ -353,6 +348,10 @@ public class GameManager : MonoBehaviour
             $"Score: {score}\n\n" +
             $"Acertos: {porcentagemAcerto:F1}%";
 
-        fimDeJogo.textoEstatística.text = stats;
+        foreach (var info in fimDeJogo.estatistica)
+        {
+            info.text = stats;
+        }
+        
     }
 }
