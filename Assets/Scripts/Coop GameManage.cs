@@ -9,9 +9,7 @@ public class CoopGameManager : MonoBehaviour
     public enum HitQuality { Perfect, Great, Good, Miss }
 
     public static CoopGameManager Instance;
-
-    [Header("Referências")]
-    public NoteSpawner spawner;
+    public CoopNoteSpawner coopSpawner;
     public HealthBar healthBar;
     public AudioSource musicSource;
     public Canvas canvas;
@@ -23,14 +21,11 @@ public class CoopGameManager : MonoBehaviour
     public Sprite greatSprite;
     public Sprite goodSprite;
     public Sprite missSprite;
-    public float judgmentDisplayDuration = 0.7f;
 
-    [Header("Qualidade dos acertos (distância em pixels)")]
+    public float judgmentDisplayDuration = 0.7f;
     public float perfectTolerance = 8f;
     public float greatTolerance = 28f;
     public float goodTolerance = 80f;
-
-    [Header("Pontos por qualidade")]
     public int perfectPoints = 10;
     public int greatPoints = 8;
     public int goodPoints = 5;
@@ -38,7 +33,6 @@ public class CoopGameManager : MonoBehaviour
     [Header("Música desta Scene")]
     public SongChart currentSong;
 
-    [Header("Barra de Vida")]
     public float P1hitAmount = 0.035f;
     public float P1missAmount = -0.05f;
     public float P2hitAmount = -0.03f;
@@ -56,15 +50,14 @@ public class CoopGameManager : MonoBehaviour
 
     private bool jogoAcabou = false;
 
-    private Coroutine hideJudgmentRoutine;
+    private Coroutine hideJudgmentRoutineP1;
+    private Coroutine hideJudgmentRoutineP2;
 
     private void Awake()
     {
-        player1judgmentDisplay.gameObject.SetActive(false);
-        player2judgmentDisplay.gameObject.SetActive(false);
-
         Instance = this;
-        if (player1judgmentDisplay == null && canvas != null && player2judgmentDisplay)
+
+        if (player1judgmentDisplay == null && canvas != null)
         {
             GameObject displayP1 = new GameObject("player1judgmentDisplay", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
             displayP1.transform.SetParent(canvas.transform, false);
@@ -75,26 +68,44 @@ public class CoopGameManager : MonoBehaviour
             player1judgmentDisplay = displayP1.GetComponent<Image>();
             player1judgmentDisplay.raycastTarget = false;
             player1judgmentDisplay.enabled = false;
-
-            GameObject displayP2 = new GameObject("player1judgmentDisplay", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
-            displayP1.transform.SetParent(canvas.transform, false);
-            RectTransform rectP2 = displayP1.GetComponent<RectTransform>();
-            rectP2.anchorMin = rectP2.anchorMax = new Vector2(0.5f, 0.5f);
-            rectP2.anchoredPosition = new Vector2(0f, -100f);
-            rectP2.sizeDelta = new Vector2(240f, 80f);
-            player1judgmentDisplay = displayP1.GetComponent<Image>();
-            player1judgmentDisplay.raycastTarget = false;
-            player1judgmentDisplay.enabled = false;
         }
+
+        if (player2judgmentDisplay == null && canvas != null)
+        {
+            GameObject displayP2 = new GameObject("player2judgmentDisplay", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+            displayP2.transform.SetParent(canvas.transform, false);
+            RectTransform rectP2 = displayP2.GetComponent<RectTransform>();
+            rectP2.anchorMin = rectP2.anchorMax = new Vector2(0.5f, 0.5f);
+            rectP2.anchoredPosition = new Vector2(0f, -190f);
+            rectP2.sizeDelta = new Vector2(240f, 80f);
+            player2judgmentDisplay = displayP2.GetComponent<Image>();
+            player2judgmentDisplay.raycastTarget = false;
+            player2judgmentDisplay.enabled = false;
+        }
+
+        if (player1judgmentDisplay != null) player1judgmentDisplay.gameObject.SetActive(false);
+        if (player2judgmentDisplay != null) player2judgmentDisplay.gameObject.SetActive(false);
     }
+
+    public bool MatchEnded => jogoAcabou;
+    public int CurrentPlayerNumber => coopSpawner != null ? coopSpawner.CurrentPlayerNumber : 0;
 
     private void Start() => StartSong(currentSong);
 
     public void StartSong(SongChart chart)
     {
-        scoreP1 = 0;
-        if (spawner != null && chart != null)
-            spawner.StartSong(chart, musicSource);
+        scoreP1 = scoreP2 = 0;
+        jogoAcabou = false;
+        notasTotaisP1 = notasTotaisP2 = 0;
+        qtdPerfectP1 = qtdPerfectP2 = qtdGreatP1 = qtdGreatP2 = 0;
+        qtdGoodP1 = qtdGoodP2 = qtdMissP1 = qtdMissP2 = 0;
+        if (healthBar != null) healthBar.health = 0.5f;
+        if (coopSpawner == null)
+        {
+            Debug.LogError("Coop: não encontrei um CoopNoteSpawner nem um NoteSpawner para converter.", this);
+            return;
+        }
+        coopSpawner.StartSong(chart, musicSource);
     }
 
     public void AddScore(int points)
@@ -103,37 +114,51 @@ public class CoopGameManager : MonoBehaviour
         Debug.Log("Pontuação: " + scoreP1);
     }
 
-    public HitQuality OnPlayerHit(float distance)
+    public void OnHoldFinished(int playerNumber, float duration)
     {
-        player1judgmentDisplay.gameObject.SetActive(true);
+        int points = 8 + Mathf.FloorToInt(duration);
+        if (playerNumber == 1) scoreP1 += points;
+        else scoreP2 += points;
+    }
 
-        notasTotaisP1++;
+    public void OnPlayerHitMiss(int playerNumber) => OnPlayerMiss(playerNumber);
+
+    public HitQuality OnPlayerHit(float distance) => OnPlayerHit(distance, 1);
+
+    public HitQuality OnPlayerHit(float distance, int playerNumber)
+    {
+        bool player1 = playerNumber == 1;
+        if (player1) notasTotaisP1++;
+        else notasTotaisP2++;
 
         HitQuality quality = GetQuality(distance);
-        ShowJudgment(quality);
+        ShowJudgment(quality, playerNumber);
         switch (quality)
         {
             case HitQuality.Perfect:
-                AddScore(perfectPoints);
-                healthBar.ChangeHealth(P1hitAmount);
-                qtdPerfectP1++;
+                AwardHit(player1, perfectPoints, player1 ? P1hitAmount : P2hitAmount);
+                if (player1) qtdPerfectP1++; else qtdPerfectP2++;
                 break;
             case HitQuality.Great:
-                AddScore(greatPoints);
-                healthBar.ChangeHealth(P1hitAmount * 0.8f);
-                qtdGreatP1++;
+                AwardHit(player1, greatPoints, (player1 ? P1hitAmount : P2hitAmount) * 0.8f);
+                if (player1) qtdGreatP1++; else qtdGreatP2++;
                 break;
             case HitQuality.Good:
-                AddScore(goodPoints);
-                healthBar.ChangeHealth(P1hitAmount * 0.5f);
-                qtdGoodP1++;
+                AwardHit(player1, goodPoints, (player1 ? P1hitAmount : P2hitAmount) * 0.5f);
+                if (player1) qtdGoodP1++; else qtdGoodP2++;
                 break;
             default:
-                qtdMissP1++;
-                healthBar.ChangeHealth(P1missAmount);
+                if (player1) { qtdMissP1++; ApplyHealthChange(P1missAmount); }
+                else { qtdMissP2++; ApplyHealthChange(P2MissAmount); }
                 break;
         }
         return quality;
+    }
+
+    private void AwardHit(bool player1, int points, float healthChange)
+    {
+        if (player1) scoreP1 += points; else scoreP2 += points;
+        ApplyHealthChange(healthChange);
     }
 
     private HitQuality GetQuality(float distance)
@@ -146,39 +171,63 @@ public class CoopGameManager : MonoBehaviour
 
     public void OnPlayerMiss()
     {
-        // deixou a nota passar
-        notasTotaisP1++;
-        qtdMissP1++;
-
-        ShowJudgment(HitQuality.Miss);
-        healthBar.ChangeHealth(P1missAmount);
+        OnPlayerMiss(1);
     }
 
-    private void ShowJudgment(HitQuality quality)
+    public void OnPlayerMiss(int playerNumber)
     {
-        if (player1judgmentDisplay == null)
+        bool player1 = playerNumber == 1;
+        if (player1) { notasTotaisP1++; qtdMissP1++; }
+        else { notasTotaisP2++; qtdMissP2++; }
+        ShowJudgment(HitQuality.Miss, playerNumber);
+        ApplyHealthChange(player1 ? P1missAmount : P2MissAmount);
+    }
+
+    private void ApplyHealthChange(float amount)
+    {
+        if (healthBar == null || jogoAcabou)
+            return;
+
+        healthBar.health = Mathf.Clamp01(healthBar.health - amount);
+        // P1 uses the right UI and lowers the bar; P2 uses the left UI and raises it.
+        if (healthBar.health <= 0.05f) RightPlayerWin();
+        else if (healthBar.health >= 0.95f) LeftPlayerWin();
+    }
+
+    private void ShowJudgment(HitQuality quality, int playerNumber)
+    {
+        Image display = playerNumber == 1 ? player1judgmentDisplay : player2judgmentDisplay;
+        if (display == null)
             return;
 
         switch (quality)
         {
-            case HitQuality.Perfect: player1judgmentDisplay.sprite = perfectSprite; break;
-            case HitQuality.Great: player1judgmentDisplay.sprite = greatSprite; break;
-            case HitQuality.Good: player1judgmentDisplay.sprite = goodSprite; break;
-            case HitQuality.Miss: player1judgmentDisplay.sprite = missSprite; break;
+            case HitQuality.Perfect: display.sprite = perfectSprite; break;
+            case HitQuality.Great: display.sprite = greatSprite; break;
+            case HitQuality.Good: display.sprite = goodSprite; break;
+            case HitQuality.Miss: display.sprite = missSprite; break;
         }
 
-        player1judgmentDisplay.enabled = player1judgmentDisplay.sprite != null;
-        if (hideJudgmentRoutine != null)
-            StopCoroutine(hideJudgmentRoutine);
-        hideJudgmentRoutine = StartCoroutine(HideJudgmentAfterDelay());
+        display.enabled = display.sprite != null;
+        display.gameObject.SetActive(true);
+        if (playerNumber == 1)
+        {
+            if (hideJudgmentRoutineP1 != null) StopCoroutine(hideJudgmentRoutineP1);
+            hideJudgmentRoutineP1 = StartCoroutine(HideJudgmentAfterDelay(display, playerNumber));
+        }
+        else
+        {
+            if (hideJudgmentRoutineP2 != null) StopCoroutine(hideJudgmentRoutineP2);
+            hideJudgmentRoutineP2 = StartCoroutine(HideJudgmentAfterDelay(display, playerNumber));
+        }
     }
 
-    private IEnumerator HideJudgmentAfterDelay()
+    private IEnumerator HideJudgmentAfterDelay(Image display, int playerNumber)
     {
         yield return new WaitForSeconds(judgmentDisplayDuration);
-        if (player1judgmentDisplay != null)
-            player1judgmentDisplay.enabled = false;
-        hideJudgmentRoutine = null;
+        if (display != null) display.enabled = false;
+        if (playerNumber == 1) hideJudgmentRoutineP1 = null;
+        else hideJudgmentRoutineP2 = null;
     }
 
     public void OnAllNotesFinished()
@@ -194,8 +243,8 @@ public class CoopGameManager : MonoBehaviour
 
         Debug.Log("Musica Parou");
 
-        if (spawner != null)
-            spawner.StopSong();
+        if (coopSpawner != null)
+            coopSpawner.StopSong();
 
         StartCoroutine(ShowResultAfterDelay());
     }
@@ -204,10 +253,10 @@ public class CoopGameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
 
-        if (healthBar.health <= 0.5f)
-            LeftPlayerWin();
-        else
+        if (healthBar != null && healthBar.health <= 0.5f)
             RightPlayerWin();
+        else
+            LeftPlayerWin();
     }
 
     public void LeftPlayerWin()
@@ -215,30 +264,34 @@ public class CoopGameManager : MonoBehaviour
 
         jogoAcabou = true;
 
-        spawner.gameObject.SetActive(false);
+        if (coopSpawner != null) coopSpawner.StopSong();
 
-        // TODO
+        Debug.Log("Jogador 2 (esquerda, WASD) venceu.");
 
         Estatisticas();
 
-        fimDeJogo.btnContinuar.onClick.AddListener(() => { SceneManager.LoadSceneAsync("1 - Menu Principal"); });
-
-        spawner.StopSong();
+        if (fimDeJogo != null && fimDeJogo.btnContinuar != null)
+        {
+            fimDeJogo.btnContinuar.onClick.RemoveAllListeners();
+            fimDeJogo.btnContinuar.onClick.AddListener(() => SceneManager.LoadSceneAsync("1 - Menu Principal"));
+        }
     }
 
     public void RightPlayerWin()
     {
         jogoAcabou = true;
 
-        spawner.gameObject.SetActive(false);
+        if (coopSpawner != null) coopSpawner.StopSong();
 
-        //TODO
+        Debug.Log("Jogador 1 (direita, setas) venceu.");
 
         Estatisticas();
 
-        fimDeJogo.btnContinuar.onClick.AddListener(() => { SceneManager.LoadSceneAsync("1 - Menu Principal"); });
-
-        spawner.StopSong();
+        if (fimDeJogo != null && fimDeJogo.btnContinuar != null)
+        {
+            fimDeJogo.btnContinuar.onClick.RemoveAllListeners();
+            fimDeJogo.btnContinuar.onClick.AddListener(() => SceneManager.LoadSceneAsync("1 - Menu Principal"));
+        }
     }
 
     private void Estatisticas()
@@ -255,12 +308,11 @@ public class CoopGameManager : MonoBehaviour
             $"P1 - Great: {qtdGreatP1}       |    P2 - Great: {qtdGreatP2}\n" +
             $"P1 - Good: {qtdGoodP1}         |    P2 - Good: {qtdGoodP2}\n" +
             $"P1 - Miss: {qtdMissP1}         |    P2 - Miss: {qtdMissP2}\n" +
-            $"P1 - Score: {scoreP1}          |    P2 - Score: {scoreP2}\n\n" +
-            $"P1 - Acertos: {porcentagemAcertoP1:F1}%      |   P2 - Acertos{porcentagemAcertoP2:F1}%";
+            $"P1 - Score: {scoreP1}        |    P2 - Score: {scoreP2}\n\n" +
+            $"P1 - Acertos: {porcentagemAcertoP1:F1}%      |   P2 - Acertos{porcentagemAcertoP2:F1}%";  
 
-        foreach(var info in fimDeJogo.estatistica)
-        {
-            info.text = stats;
-        }
+        if (fimDeJogo != null && fimDeJogo.estatistica != null)
+            foreach (var info in fimDeJogo.estatistica)
+                if (info != null) info.text = stats;
     }
 }

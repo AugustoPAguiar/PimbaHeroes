@@ -274,7 +274,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &66068521
 RectTransform:
   m_ObjectHideFlags: 0
@@ -753,7 +753,7 @@ GameObject:
   m_Component:
   - component: {fileID: 159536283}
   m_Layer: 0
-  m_Name: Left Acerto
+  m_Name: Player 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2119,7 +2119,7 @@ GameObject:
   m_Component:
   - component: {fileID: 936203696}
   m_Layer: 0
-  m_Name: Right Acerto
+  m_Name: Player 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2548,7 +2548,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1144896664}
-  - component: {fileID: 1144896665}
+  - component: {fileID: 1144896668}
   - component: {fileID: 1144896666}
   - component: {fileID: 1144896667}
   m_Layer: 0
@@ -2573,51 +2573,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1144896665
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1144896663}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca5b7751fce9b954c8983f5da102c308, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  spawner: {fileID: 1519940913}
-  healthBar: {fileID: 1144896666}
-  musicSource: {fileID: 686627049}
-  canvas: {fileID: 1974023597}
-  judgmentDisplay: {fileID: 68567188}
-  perfectSprite: {fileID: -4225201989587657184, guid: 7ec142c2b71c6f441a0c37ea1190afef, type: 3}
-  greatSprite: {fileID: 1843423821, guid: 7ec142c2b71c6f441a0c37ea1190afef, type: 3}
-  goodSprite: {fileID: 1572438907, guid: 7ec142c2b71c6f441a0c37ea1190afef, type: 3}
-  missSprite: {fileID: -1508886463, guid: 7ec142c2b71c6f441a0c37ea1190afef, type: 3}
-  judgmentDisplayDuration: 0.7
-  playerHitDirections:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  enemyHitDirections:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  perfectTolerance: 5
-  greatTolerance: 15
-  goodTolerance: 50
-  perfectPoints: 10
-  greatPoints: 8
-  goodPoints: 5
-  currentSong: {fileID: 11400000, guid: edd5b8b935e73594f933ba655af2dc4a, type: 2}
-  hitAmount: 0.035
-  missAmount: -0.03
-  enemyHitAmount: -0.03
-  enemyMissAmount: 0.015
-  enemyMissChance: 0.2
-  fimDeJogo: {fileID: 1144896667}
 --- !u!114 &1144896666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2647,12 +2602,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EndGame
   uiPrincipal: {fileID: 360347347}
-  uiVitoria: {fileID: 0}
-  uiDerrota: {fileID: 0}
+  uiVitoria: {fileID: 66068520}
+  uiDerrota: {fileID: 66068520}
   btnContinuar: {fileID: 1690898096}
-  btnVoltar: {fileID: 0}
-  proxFase: "Cr\xE9ditos"
-  estatistica: []
+  btnVoltar: {fileID: 1690898096}
+  proxFase: 3 - Menu Coop
+  estatistica:
+  - {fileID: 300407763}
+  - {fileID: 300407763}
+--- !u!114 &1144896668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1144896663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07f7651e80b04a542991e5b9489f5c63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CoopGameManager
+  coopSpawner: {fileID: 1519940913}
+  healthBar: {fileID: 1144896666}
+  musicSource: {fileID: 686627049}
+  canvas: {fileID: 1974023597}
+  player1judgmentDisplay: {fileID: 68567188}
+  player2judgmentDisplay: {fileID: 1304720922}
+  perfectSprite: {fileID: -4225201989587657184, guid: 7ec142c2b71c6f441a0c37ea1190afef, type: 3}
+  greatSprite: {fileID: 1843423821, guid: 7ec142c2b71c6f441a0c37ea1190afef, type: 3}
+  goodSprite: {fileID: 1572438907, guid: 7ec142c2b71c6f441a0c37ea1190afef, type: 3}
+  missSprite: {fileID: -1508886463, guid: 7ec142c2b71c6f441a0c37ea1190afef, type: 3}
+  judgmentDisplayDuration: 0.7
+  perfectTolerance: 8
+  greatTolerance: 28
+  goodTolerance: 80
+  perfectPoints: 10
+  greatPoints: 8
+  goodPoints: 5
+  currentSong: {fileID: 11400000, guid: edd5b8b935e73594f933ba655af2dc4a, type: 2}
+  P1hitAmount: 0.035
+  P1missAmount: -0.05
+  P2hitAmount: -0.03
+  P2MissAmount: 0.015
+  enemyMissChance: 0.8
+  fimDeJogo: {fileID: 1144896667}
 --- !u!1 &1179537225
 GameObject:
   m_ObjectHideFlags: 0
@@ -3328,7 +3321,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1745618004544940401, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
       propertyPath: m_Name
-      value: Right Player
+      value: Player 2
       objectReference: {fileID: 0}
     - target: {fileID: 2365582423792283428, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
       propertyPath: m_IsActive
@@ -3507,31 +3500,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 1519940911}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: feb70b910c73c1445aaecc947648234b, type: 3}
+  m_Script: {fileID: 11500000, guid: 3a0b3565f75e47efb2683e3fdd7dc441, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NoteSpawner
+  m_EditorClassIdentifier: Assembly-CSharp::CoopNoteSpawner
   leftArrowPrefab: {fileID: 6612522740577935637, guid: a453af65cb0aef84ea73349d22b9b7e8, type: 3}
   downArrowPrefab: {fileID: 2317714614289327792, guid: 41fc234d1f0a8ca4f9e82e718348988f, type: 3}
   upArrowPrefab: {fileID: 3756279992221438616, guid: 1ca7d3eef083c024883a6df460668ca5, type: 3}
   rightArrowPrefab: {fileID: 4356953381209905729, guid: a799c0d6ed9d4924da57bc15ce146b62, type: 3}
-  playerLeftTarget: {fileID: 608727931}
-  playerDownTarget: {fileID: 801030104}
-  playerUpTarget: {fileID: 659299491}
-  playerRightTarget: {fileID: 1558196691}
-  enemyLeftTarget: {fileID: 639673275}
-  enemyDownTarget: {fileID: 2073257998}
-  enemyUpTarget: {fileID: 1644860683}
-  enemyRightTarget: {fileID: 1929704581}
+  player1LeftTarget: {fileID: 608727931}
+  player1DownTarget: {fileID: 801030104}
+  player1UpTarget: {fileID: 659299491}
+  player1RightTarget: {fileID: 1558196691}
+  player2LeftTarget: {fileID: 639673275}
+  player2DownTarget: {fileID: 2073257998}
+  player2UpTarget: {fileID: 1644860683}
+  player2RightTarget: {fileID: 1929704581}
   noteSpeed: 500
   travelTime: 1
   startY: -600
-  canvas: {fileID: 1974023597}
-  playerAnimator: {fileID: 1020779340}
-  playerIdleState: Idle
-  playerAttackState: Ataque
-  enemyAnimator: {fileID: 1111634477}
-  enemyIdleState: Idle
-  enemyAttackState: Ataque
+  missY: 600
+  canvas: {fileID: 360347347}
+  player1Animator: {fileID: 1111634477}
+  player1IdleState: Idle
+  player1AttackState: Ataque
+  player2Animator: {fileID: 1020779340}
+  player2IdleState: Idle
+  player2AttackState: Ataque
 --- !u!1 &1530020930
 GameObject:
   m_ObjectHideFlags: 0
@@ -4256,9 +4250,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1975915130}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b7044078faae8a4480a29050c35f329, type: 3}
+  m_Script: {fileID: 11500000, guid: fcc8d90ba5105f24a8991a855b1687c2, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerInput
+  m_EditorClassIdentifier: Assembly-CSharp::CoopPlayerInput
   hitWindowPixels: 80
 --- !u!1 &2014829266
 GameObject:
@@ -4420,7 +4414,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1745618004544940401, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
       propertyPath: m_Name
-      value: Left Player
+      value: Player 1
       objectReference: {fileID: 0}
     - target: {fileID: 2365582423792283428, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
       propertyPath: m_IsActive

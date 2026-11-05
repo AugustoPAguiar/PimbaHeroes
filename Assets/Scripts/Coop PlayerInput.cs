@@ -2,43 +2,50 @@ using UnityEngine;
 
 public class CoopPlayerInput : MonoBehaviour
 {
-    [Tooltip("Distância máxima para aceitar a tecla, em pixels.")]
-    public float hitWindowPixels = 80f;
+    [SerializeField] private float hitWindowPixels = 80f;
 
     private void Update()
     {
-        // jogar no awsd
-        CheckInput(KeyCode.A);
-        CheckInput(KeyCode.S);
-        CheckInput(KeyCode.W);
-        CheckInput(KeyCode.D);
-
-        // jogar nas setinhas
-        CheckInput(KeyCode.LeftArrow);
-        CheckInput(KeyCode.DownArrow);
-        CheckInput(KeyCode.UpArrow);
-        CheckInput(KeyCode.RightArrow);
-    }
-
-    private void CheckInput(KeyCode key)
-    {
-        if (!Input.GetKeyDown(key))
+        CoopGameManager manager = CoopGameManager.Instance;
+        if (manager == null || manager.MatchEnded || manager.coopSpawner == null || !manager.coopSpawner.IsRunning)
             return;
 
-        KeyCode laneKey = GetLaneKey(key);
-
-        Note[] notes = FindObjectsByType<Note>(FindObjectsSortMode.None);
-
-        Note closestNote = null;
-        float closestDistance = float.MaxValue;
-
-        foreach (Note note in notes)
+        if (manager.CurrentPlayerNumber == 1)
         {
-            if (note.isEnemyNote || note.wasHit || note.keyToPress != laneKey)
+            CheckInput(KeyCode.LeftArrow, KeyCode.A, 1);
+            CheckInput(KeyCode.DownArrow, KeyCode.S, 1);
+            CheckInput(KeyCode.UpArrow, KeyCode.W, 1);
+            CheckInput(KeyCode.RightArrow, KeyCode.D, 1);
+            ReleaseHold(KeyCode.LeftArrow, KeyCode.A, 1);
+            ReleaseHold(KeyCode.DownArrow, KeyCode.S, 1);
+            ReleaseHold(KeyCode.UpArrow, KeyCode.W, 1);
+            ReleaseHold(KeyCode.RightArrow, KeyCode.D, 1);
+        }
+        else
+        {
+            CheckInput(KeyCode.A, KeyCode.A, 2);
+            CheckInput(KeyCode.S, KeyCode.S, 2);
+            CheckInput(KeyCode.W, KeyCode.W, 2);
+            CheckInput(KeyCode.D, KeyCode.D, 2);
+            ReleaseHold(KeyCode.A, KeyCode.A, 2);
+            ReleaseHold(KeyCode.S, KeyCode.S, 2);
+            ReleaseHold(KeyCode.W, KeyCode.W, 2);
+            ReleaseHold(KeyCode.D, KeyCode.D, 2);
+        }
+    }
+
+    private void CheckInput(KeyCode controlKey, KeyCode laneKey, int playerNumber)
+    {
+        if (!Input.GetKeyDown(controlKey)) return;
+
+        CoopNote closestNote = null;
+        float closestDistance = float.MaxValue;
+        foreach (CoopNote note in FindObjectsByType<CoopNote>(FindObjectsSortMode.None))
+        {
+            if (note == null || note.playerNumber != playerNumber || note.keyToPress != laneKey)
                 continue;
 
-            float distance = note.GetDistanceToHitTargetPixels();
-
+            float distance = note.DistanceToTargetPixels();
             if (distance <= hitWindowPixels && distance < closestDistance)
             {
                 closestNote = note;
@@ -46,22 +53,15 @@ public class CoopPlayerInput : MonoBehaviour
             }
         }
 
-        if (closestNote == null)
-            return;
-
-        closestNote.Hit();
-        GameManager.Instance.OnPlayerHit(closestDistance, closestNote.keyToPress);
+        if (closestNote != null && closestNote.Hit())
+            CoopGameManager.Instance.OnPlayerHit(closestDistance, playerNumber);
     }
 
-    private KeyCode GetLaneKey(KeyCode key)
+    private void ReleaseHold(KeyCode controlKey, KeyCode laneKey, int playerNumber)
     {
-        switch (key)
-        {
-            case KeyCode.LeftArrow: return KeyCode.A;
-            case KeyCode.DownArrow: return KeyCode.S;
-            case KeyCode.UpArrow: return KeyCode.W;
-            case KeyCode.RightArrow: return KeyCode.D;
-            default: return key;
-        }
+        if (!Input.GetKeyUp(controlKey)) return;
+        foreach (CoopNote note in FindObjectsByType<CoopNote>(FindObjectsSortMode.None))
+            if (note != null && note.playerNumber == playerNumber && note.keyToPress == laneKey)
+                note.ReleaseHold();
     }
 }

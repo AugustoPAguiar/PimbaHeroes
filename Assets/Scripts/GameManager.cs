@@ -31,9 +31,9 @@ public class GameManager : MonoBehaviour
     public GameObject[] enemyHitDirections = new GameObject[4]; // esquerda, baixo, cima, direita
 
     [Header("Qualidade dos acertos (distância em pixels)")]
-    public float perfectTolerance = 8f;
-    public float greatTolerance = 28f;
-    public float goodTolerance = 80f;
+    public float perfectTolerance = 5f;
+    public float greatTolerance = 10f;
+    public float goodTolerance = 30f;
 
     [Header("Pontos por qualidade")]
     public int perfectPoints = 10;
