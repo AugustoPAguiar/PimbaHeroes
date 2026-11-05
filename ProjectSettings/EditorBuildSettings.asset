@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/1 - Menu Principal.unity
     guid: b9d538e4a4b630d4780fa5a324104ad9
   - enabled: 1
-    path: Assets/Scenes/3 - Menu Coop.unity
+    path: Assets/Scenes/2 - Menu Coop.unity
     guid: ea7fd512da3540c43af8fa6223865555
   - enabled: 1
     path: Assets/Scenes/History 1 - Emanuel.unity

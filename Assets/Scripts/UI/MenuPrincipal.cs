@@ -16,7 +16,7 @@ public class MenuPrincipal : MonoBehaviour
     {
         jogarBtn.onClick.AddListener(() => SceneManager.LoadSceneAsync("History 1 - Emanuel"));
 
-        coopBtn.onClick.AddListener(() => SceneManager.LoadSceneAsync("3 - Menu Coop"));
+        coopBtn.onClick.AddListener(() => SceneManager.LoadSceneAsync("2 - Menu Coop"));
 
         creditsBtn.onClick.AddListener(() => SceneManager.LoadSceneAsync("Creditos"));
 

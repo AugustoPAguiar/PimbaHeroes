@@ -62,8 +62,6 @@ public class CoopNoteSpawner : MonoBehaviour
         downArrowPrefab = source.downArrowPrefab;
         upArrowPrefab = source.upArrowPrefab;
         rightArrowPrefab = source.rightArrowPrefab;
-        // In this game layout, the original Player targets are on the left (P2),
-        // and the original Enemy targets are on the right (P1).
         player1LeftTarget = source.enemyLeftTarget;
         player1DownTarget = source.enemyDownTarget;
         player1UpTarget = source.enemyUpTarget;
@@ -167,7 +165,7 @@ public class CoopNoteSpawner : MonoBehaviour
             SpawnNote(notesForTurn[nextNoteIndex++]);
 
         activeNotes.RemoveAll(note => note == null);
-        if (nextNoteIndex >= notesForTurn.Count && time > lastNoteEnd + travelTime + 0.8f && activeNotes.Count == 0)
+        if (nextNoteIndex >= notesForTurn.Count && time > lastNoteEnd + travelTime && activeNotes.Count == 0)
             NextTurn();
     }
 

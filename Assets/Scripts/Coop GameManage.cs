@@ -1,5 +1,6 @@
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -261,12 +262,14 @@ public class CoopGameManager : MonoBehaviour
 
     public void LeftPlayerWin()
     {
-
         jogoAcabou = true;
 
         if (coopSpawner != null) coopSpawner.StopSong();
 
-        Debug.Log("Jogador 2 (esquerda, WASD) venceu.");
+        fimDeJogo.uiPrincipal.gameObject.SetActive(false);
+        fimDeJogo.uiVitoria.gameObject.SetActive(true);
+
+        fimDeJogo.estatistica[0].text = "Player 1";
 
         Estatisticas();
 
@@ -283,7 +286,10 @@ public class CoopGameManager : MonoBehaviour
 
         if (coopSpawner != null) coopSpawner.StopSong();
 
-        Debug.Log("Jogador 1 (direita, setas) venceu.");
+        fimDeJogo.uiPrincipal.gameObject.SetActive(false);
+        fimDeJogo.uiVitoria.gameObject.SetActive(true);
+
+        fimDeJogo.estatistica[0].text = "Player 2";
 
         Estatisticas();
 
@@ -303,16 +309,25 @@ public class CoopGameManager : MonoBehaviour
         porcentagemAcertoP1 = notasTotaisP1 > 0 ? (acertosP1 / (float)notasTotaisP1) * 100f : 0f;
         porcentagemAcertoP2 = notasTotaisP2 > 0 ? (acertosP2 / (float)notasTotaisP2) * 100f : 0f;
 
-        string stats =
-            $"P1 - Perfect: {qtdPerfectP1}   |    Player 2 - Perfect: {qtdPerfectP2}\n" +
-            $"P1 - Great: {qtdGreatP1}       |    P2 - Great: {qtdGreatP2}\n" +
-            $"P1 - Good: {qtdGoodP1}         |    P2 - Good: {qtdGoodP2}\n" +
-            $"P1 - Miss: {qtdMissP1}         |    P2 - Miss: {qtdMissP2}\n" +
-            $"P1 - Score: {scoreP1}        |    P2 - Score: {scoreP2}\n\n" +
-            $"P1 - Acertos: {porcentagemAcertoP1:F1}%      |   P2 - Acertos{porcentagemAcertoP2:F1}%";  
+        string statsP1 =
+            $"Player 1\n\n" +
+            $"Perfect:{qtdPerfectP1}\n\n" +
+            $"Great:{qtdGreatP1}\n\n" +
+            $"Good:{qtdGoodP1}\n\n" +
+            $"Miss:{qtdMissP1}\n\n" +
+            $"Score:{scoreP1}\n\n\n" +
+            $"Acertos:{porcentagemAcertoP1:F1}%";
 
-        if (fimDeJogo != null && fimDeJogo.estatistica != null)
-            foreach (var info in fimDeJogo.estatistica)
-                if (info != null) info.text = stats;
+        string statsP2 =
+            $"Player 2\n\n" +
+            $"Perfect:{qtdPerfectP2}\n\n" +
+            $"Great:{qtdGreatP2}\n\n" +
+            $"Good:{qtdGoodP2}\n\n" +
+            $"Miss:{qtdMissP2}\n\n" +
+            $"Score:{scoreP2}\n\n\n" +
+            $"Acertos:{porcentagemAcertoP2:F1}%";
+
+        fimDeJogo.estatistica[1].text = statsP1;
+        fimDeJogo.estatistica[2].text = statsP2;
     }
 }
