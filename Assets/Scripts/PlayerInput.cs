@@ -11,6 +11,13 @@ public class PlayerInput : MonoBehaviour
         CheckInput(KeyCode.S);
         CheckInput(KeyCode.W);
         CheckInput(KeyCode.D);
+
+        /*
+        CheckInput(KeyCode.LeftArrow);
+        CheckInput(KeyCode.DownArrow);
+        CheckInput(KeyCode.UpArrow);
+        CheckInput(KeyCode.RightArrow);
+        */
     }
 
     private void CheckInput(KeyCode key)

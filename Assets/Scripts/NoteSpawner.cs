@@ -36,7 +36,7 @@ public class NoteSpawner : MonoBehaviour
     private SongChart currentChart;
     private AudioSource audioSource;
     private int currentSectionIndex;
-    private Turn currentTurn = Turn.Player;
+    private Turn currentTurn = Turn.Enemy;
     private List<NoteData> currentNotes = new List<NoteData>();
     private RectTransform notesParent;
     private bool isPlaying;
@@ -75,7 +75,7 @@ public class NoteSpawner : MonoBehaviour
         currentChart = chart;
         audioSource = source;
         currentSectionIndex = 0;
-        currentTurn = Turn.Player;
+        currentTurn = Turn.Enemy;
         isPlaying = true;
 
         audioSource.clip = chart.music;
@@ -169,14 +169,16 @@ public class NoteSpawner : MonoBehaviour
 
     private void NextTurn()
     {
-        if (currentTurn == Turn.Player)
+        if (currentTurn == Turn.Enemy)
         {
-            currentTurn = Turn.Enemy;
+            // O jogador repete a mesma secção que acabou de jogar o inimigo.
+            currentTurn = Turn.Player;
             LoadCurrentSection();
         }
         else
         {
-            currentTurn = Turn.Player;
+            // Só avança para a próxima secção depois da vez do jogador.
+            currentTurn = Turn.Enemy;
             currentSectionIndex++;
             LoadCurrentSection();
         }

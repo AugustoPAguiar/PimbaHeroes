@@ -1563,6 +1563,7 @@ GameObject:
   - component: {fileID: 1144896665}
   - component: {fileID: 1144896666}
   - component: {fileID: 1144896667}
+  - component: {fileID: 1144896668}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1654,6 +1655,37 @@ MonoBehaviour:
   "textoEstat\xEDstica": {fileID: 300407763}
   btnContinuar: {fileID: 1690898096}
   proxFase: "Cr\xE9ditos"
+--- !u!114 &1144896668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1144896663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cfa3187ba088f34188bc612417bcf0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Multplayer
+  leftPlayer:
+    keys: 14010000120100001101000013010000
+    startingLife: 1
+    life: 0
+    score: 0
+  rightPlayer:
+    keys: 61000000730000007700000064000000
+    startingLife: 1
+    life: 0
+    score: 0
+  hitWindowPixels: 80
+  perfectTolerance: 8
+  greatTolerance: 28
+  goodTolerance: 80
+  perfectPoints: 10
+  greatPoints: 8
+  goodPoints: 5
+  hitLifeGain: 0.035
+  missLifeLoss: 0.05
 --- !u!1 &1179537225
 GameObject:
   m_ObjectHideFlags: 0

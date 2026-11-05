@@ -1653,7 +1653,7 @@ MonoBehaviour:
   textoFinal: {fileID: 16162298}
   "textoEstat\xEDstica": {fileID: 300407763}
   btnContinuar: {fileID: 1690898096}
-  proxFase: "Cr\xE9ditos"
+  proxFase: Creditos
 --- !u!1 &1179537225
 GameObject:
   m_ObjectHideFlags: 0

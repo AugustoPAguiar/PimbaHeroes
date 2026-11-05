@@ -15,55 +15,25 @@ MonoBehaviour:
   songName: Os bichos da fazenda
   music: {fileID: 8300000, guid: bf0ffad92b5b7944f9681410cb3bda80, type: 3}
   sections:
-  - sectionName: Parte 1
+  - sectionName: Take 1
     notes:
-    - time: 1
-      direction: 1
-      isHold: 1
-      holdDuration: 1
-    - time: 1.5
+    - time: 0.5
       direction: 2
       isHold: 0
       holdDuration: 0
-    - time: 2
-      direction: 0
-      isHold: 0
-      holdDuration: 0
-    - time: 2.4
-      direction: 2
-      isHold: 0
-      holdDuration: 0
-    - time: 4
-      direction: 3
-      isHold: 0
-      holdDuration: 0
-  - sectionName: part 2
-    notes:
-    - time: 1
+    - time: 1.7
       direction: 1
-      isHold: 1
-      holdDuration: 2
-    - time: 4
-      direction: 2
       isHold: 0
       holdDuration: 0
-    - time: 4
-      direction: 0
-      isHold: 0
-      holdDuration: 0
-    - time: 4.8
-      direction: 3
-      isHold: 0
-      holdDuration: 0
-    - time: 5
-      direction: 3
-      isHold: 0
-      holdDuration: 0
-    - time: 6.5
-      direction: 0
-      isHold: 0
-      holdDuration: 0
-    - time: 7
+    - time: 3
       direction: 1
+      isHold: 0
+      holdDuration: 0
+    - time: 3
+      direction: 0
+      isHold: 0
+      holdDuration: 0
+    - time: 5.5
+      direction: 0
       isHold: 0
       holdDuration: 0
