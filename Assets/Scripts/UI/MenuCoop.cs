@@ -12,7 +12,7 @@ public class MenuCoop : MonoBehaviour
     void Start()
     {
         backBtn.onClick.AddListener(() => SceneManager.LoadSceneAsync("1 - Menu Principal"));
-        versusBtn.onClick.AddListener(() => SceneManager.LoadSceneAsync("Multiplyer - Versus"));
-        // coopBtn.onClick.AddListener();
+        versusBtn.onClick.AddListener(() => SceneManager.LoadSceneAsync("Multiplayer - Versus"));
+        coopBtn.onClick.AddListener(() => SceneManager.LoadSceneAsync("Multiplayer - Coop"));
     }
 }

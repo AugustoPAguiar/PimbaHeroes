@@ -1164,7 +1164,8 @@ MonoBehaviour:
   perfectPoints: 10
   greatPoints: 8
   goodPoints: 5
-  currentSong: {fileID: 11400000, guid: edd5b8b935e73594f933ba655af2dc4a, type: 2}
+  currentSong:
+  - {fileID: 11400000, guid: edd5b8b935e73594f933ba655af2dc4a, type: 2}
   hitAmount: 0.02
   missAmount: -0.01
   enemyHitAmount: -0.02

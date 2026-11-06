@@ -31,7 +31,8 @@ public class CoopGameManager : MonoBehaviour
     public int goodPoints = 5;
 
     [Header("Música desta Scene")]
-    public SongChart currentSong;
+    public SongChart[] currentSong;
+    public GameObject[] cenario;
 
     public float P1hitAmount = 0.035f;
     public float P1missAmount = -0.05f;
@@ -47,11 +48,9 @@ public class CoopGameManager : MonoBehaviour
     private int qtdPerfectP1 = 0, qtdPerfectP2 = 0, qtdGreatP1 = 0, qtdGreatP2 = 0;
     private int qtdGoodP1 = 0, qtdGoodP2 = 0, qtdMissP1 = 0, qtdMissP2 = 0;
     private float porcentagemAcertoP1 = 0, porcentagemAcertoP2 = 0;
+    private int numeroJogo;
 
     private bool jogoAcabou = false;
-
-    private Coroutine hideJudgmentRoutineP1;
-    private Coroutine hideJudgmentRoutineP2;
 
     private void Awake()
     {
@@ -90,7 +89,11 @@ public class CoopGameManager : MonoBehaviour
     public bool MatchEnded => jogoAcabou;
     public int CurrentPlayerNumber => coopSpawner != null ? coopSpawner.CurrentPlayerNumber : 0;
 
-    private void Start() => StartSong(currentSong);
+    private void Start(){
+        // Cenário e usica aleatorio
+        cenario[Random.Range(0, currentSong.Length)].SetActive(true);
+        StartSong(currentSong[Random.Range(0, currentSong.Length)]);
+    }
 
     public void StartSong(SongChart chart)
     {

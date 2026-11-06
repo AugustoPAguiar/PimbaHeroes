@@ -41,7 +41,10 @@ public class GameManager : MonoBehaviour
     public int goodPoints = 5;
 
     [Header("Música desta Scene")]
-    public SongChart currentSong;
+    public SongChart[] currentSong;
+    public GameObject[] cenarioCoop;
+    public GameObject[] enemyCoop;
+    public RawImage[] enemyHeadCoop;
 
     [Header("Barra de Vida")]
     public float hitAmount = 0.035f;
@@ -63,7 +66,6 @@ public class GameManager : MonoBehaviour
     private float porcentagemAcerto = 0;
     private bool jogoAcabou = false;
 
-    private Coroutine hideJudgmentRoutine;
     private readonly Dictionary<GameObject, float> hitFeedbackExpirations = new Dictionary<GameObject, float>();
 
     private void Awake()
@@ -109,7 +111,20 @@ public class GameManager : MonoBehaviour
                 hitFeedbackExpirations.Remove(visual);
     }
 
-    private void Start() => StartSong(currentSong);
+    private void Start()
+    {
+        // Se existir mais de uma musica no Song, ele pega uma aleatória, senão ele vai na unica q tem (Só é util no coop)
+        if(currentSong.Length > 1)
+        {
+            int inimigo = Random.Range(0, currentSong.Length);
+            enemyHeadCoop[inimigo].gameObject.SetActive(true);
+            cenarioCoop[inimigo].SetActive(true);
+            enemyCoop[Random.Range(0, currentSong.Length)].SetActive(true);
+            StartSong(currentSong[Random.Range(0, currentSong.Length)]);
+        }
+        else
+            StartSong(currentSong[0]);
+    }
 
     public void StartSong(SongChart chart)
     {
@@ -338,7 +353,7 @@ public class GameManager : MonoBehaviour
         spawner.gameObject.SetActive(false);
 
         fimDeJogo.uiPrincipal.gameObject.SetActive(false);
-        fimDeJogo.uiVitoria.gameObject.SetActive(true);
+        fimDeJogo.uiDerrota.gameObject.SetActive(true);
 
         Estatisticas();
 

@@ -2578,7 +2578,14 @@ MonoBehaviour:
   perfectPoints: 10
   greatPoints: 8
   goodPoints: 5
-  currentSong: {fileID: 11400000, guid: fd4ef39bb84c2e34a8d281100e72e16e, type: 2}
+  currentSong:
+  - {fileID: 11400000, guid: 1c7c51ee53ed3e24cad7d5cc054c42b0, type: 2}
+  - {fileID: 11400000, guid: edd5b8b935e73594f933ba655af2dc4a, type: 2}
+  - {fileID: 11400000, guid: fd4ef39bb84c2e34a8d281100e72e16e, type: 2}
+  cenario:
+  - {fileID: 1530020930}
+  - {fileID: 1128398305}
+  - {fileID: 494339079}
   P1hitAmount: 0.02
   P1missAmount: -0.015
   P2hitAmount: -0.02
@@ -3552,7 +3559,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1530020931
 Transform:
   m_ObjectHideFlags: 0
