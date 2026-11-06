@@ -357,7 +357,7 @@ public class GameManager : MonoBehaviour
 
         Estatisticas();
 
-        fimDeJogo.btnContinuar.onClick.AddListener(() => { SceneManager.LoadSceneAsync("1 - Menu Principal"); });
+        fimDeJogo.btnVoltar.onClick.AddListener(() => { SceneManager.LoadSceneAsync("1 - Menu Principal"); });
 
         spawner.StopSong();
     }

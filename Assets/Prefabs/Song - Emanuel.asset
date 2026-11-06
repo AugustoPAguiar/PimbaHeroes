@@ -255,11 +255,11 @@ MonoBehaviour:
       direction: 3
       isHold: 0
       holdDuration: 0
-    - time: 0.8
+    - time: 0.9
       direction: 1
       isHold: 0
       holdDuration: 0
-    - time: 0.9
+    - time: 1
       direction: 0
       isHold: 0
       holdDuration: 0
@@ -267,31 +267,31 @@ MonoBehaviour:
       direction: 2
       isHold: 0
       holdDuration: 0
-    - time: 1.2
+    - time: 1.5
       direction: 3
-      isHold: 0
-      holdDuration: 0
-    - time: 1.5
-      direction: 2
-      isHold: 0
-      holdDuration: 0
-    - time: 1.5
-      direction: 1
       isHold: 0
       holdDuration: 0
     - time: 1.7
-      direction: 3
+      direction: 2
       isHold: 0
       holdDuration: 0
     - time: 1.9
       direction: 1
       isHold: 0
       holdDuration: 0
-    - time: 2.2
+    - time: 2
+      direction: 3
+      isHold: 0
+      holdDuration: 0
+    - time: 2.3
+      direction: 1
+      isHold: 0
+      holdDuration: 0
+    - time: 2.3
       direction: 0
       isHold: 0
       holdDuration: 0
-    - time: 2.4
+    - time: 2.5
       direction: 2
       isHold: 0
       holdDuration: 0
