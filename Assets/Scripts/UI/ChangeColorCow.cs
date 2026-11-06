@@ -72,33 +72,56 @@ public class ChangeColorCow : MonoBehaviour
 
     void ManterDentroDaTela()
     {
-        Vector2 pos = rectVaca.anchoredPosition;
-        Vector2 tamanho = rectVaca.rect.size * rectVaca.localScale.x;
+        if (canvas == null) return;
 
-        // Limites (ajuste se o Canvas for diferente)
-        float limiteX = (Screen.width) - (tamanho.x);
-        float limiteY = (Screen.height) - (tamanho.y);
+        RectTransform canvasRect = canvas.GetComponent<RectTransform>();
+        Vector2 tamanhoCanvas = canvasRect.rect.size;
+
+        Vector2 pos = rectVaca.anchoredPosition;
+
+        // Metade do tamanho da vaca (levando em conta a escala)
+        Vector2 metadeTamanho = rectVaca.rect.size * 0.5f * rectVaca.localScale.x;
+
+        // Limites considerando que o pivô está no centro
+        float limiteX = (tamanhoCanvas.x * 0.5f) - metadeTamanho.x;
+        float limiteY = (tamanhoCanvas.y * 0.5f) - metadeTamanho.y;
 
         bool bateu = false;
 
-        // Se bater na borda, inverte a direção nesse eixo
-        if (pos.x > limiteX || pos.x < -limiteX)
+        // Borda direita / esquerda
+        if (pos.x > limiteX)
         {
+            pos.x = limiteX;
             direcao.x *= -1;
-            pos.x = Mathf.Clamp(pos.x, -limiteX, limiteX);
             bateu = true;
         }
-
-        if (pos.y > limiteY || pos.y < -limiteY)
+        else if (pos.x < -limiteX)
         {
-            direcao.y *= -1;
-            pos.y = Mathf.Clamp(pos.y, -limiteY, limiteY);
+            pos.x = -limiteX;
+            direcao.x *= -1;
             bateu = true;
         }
 
-        // Garante que a direção continue normalizada
+        // Borda cima / baixo
+        if (pos.y > limiteY)
+        {
+            pos.y = limiteY;
+            direcao.y *= -1;
+            bateu = true;
+        }
+        else if (pos.y < -limiteY)
+        {
+            pos.y = -limiteY;
+            direcao.y *= -1;
+            bateu = true;
+        }
+
         if (bateu)
+        {
+            // Pequena variação aleatória na direção
+            direcao += new Vector2(Random.Range(-0.3f, 0.3f), Random.Range(-0.3f, 0.3f));
             direcao = direcao.normalized;
+        }
 
         rectVaca.anchoredPosition = pos;
     }

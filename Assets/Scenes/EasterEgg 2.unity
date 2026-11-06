@@ -936,7 +936,7 @@ MonoBehaviour:
   imagemdeFundo: {fileID: 917276838}
   imagemVaca: {fileID: 1082451019}
   canvas: {fileID: 505232486}
-  velocidadeMovimento: 1200
+  velocidadeMovimento: 1000
   velocidadeRotacao: 500
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
