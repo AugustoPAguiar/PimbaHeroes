@@ -634,6 +634,71 @@ MonoBehaviour:
   - {x: 0, y: -0.25, z: 0}
   - {x: 0.5, y: 0, z: 0}
   - {x: 0, y: 0.25, z: 0}
+--- !u!1001 &603236574
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4027153050454985951, guid: 6ab3f217f27c0f84f9c8b84f1ad8effc, type: 3}
+      propertyPath: m_Name
+      value: Pausa
+      objectReference: {fileID: 0}
+    - target: {fileID: 4979843239578162811, guid: 6ab3f217f27c0f84f9c8b84f1ad8effc, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 173.75935
+      objectReference: {fileID: 0}
+    - target: {fileID: 4979843239578162811, guid: 6ab3f217f27c0f84f9c8b84f1ad8effc, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 172.94914
+      objectReference: {fileID: 0}
+    - target: {fileID: 4979843239578162811, guid: 6ab3f217f27c0f84f9c8b84f1ad8effc, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4979843239578162811, guid: 6ab3f217f27c0f84f9c8b84f1ad8effc, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4979843239578162811, guid: 6ab3f217f27c0f84f9c8b84f1ad8effc, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4979843239578162811, guid: 6ab3f217f27c0f84f9c8b84f1ad8effc, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4979843239578162811, guid: 6ab3f217f27c0f84f9c8b84f1ad8effc, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4979843239578162811, guid: 6ab3f217f27c0f84f9c8b84f1ad8effc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4979843239578162811, guid: 6ab3f217f27c0f84f9c8b84f1ad8effc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4979843239578162811, guid: 6ab3f217f27c0f84f9c8b84f1ad8effc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7634460158877307397, guid: 6ab3f217f27c0f84f9c8b84f1ad8effc, type: 3}
+      propertyPath: uiDoJogo
+      value: 
+      objectReference: {fileID: 1974023597}
+    - target: {fileID: 7634460158877307397, guid: 6ab3f217f27c0f84f9c8b84f1ad8effc, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 686627049}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6ab3f217f27c0f84f9c8b84f1ad8effc, type: 3}
 --- !u!224 &639673275 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3435823000641778419, guid: 94958bb51daa27444acfb6b967bf24fe, type: 3}
@@ -1665,11 +1730,14 @@ MonoBehaviour:
   goodPoints: 5
   currentSong:
   - {fileID: 11400000, guid: fd4ef39bb84c2e34a8d281100e72e16e, type: 2}
+  cenarioCoop: []
+  enemyCoop: []
+  enemyHeadCoop: []
   hitAmount: 0.02
   missAmount: -0.01
   enemyHitAmount: -0.02
   enemyMissAmount: 0.01
-  enemyMissChance: 0.1
+  enemyMissChance: 0.15
   fimDeJogo: {fileID: 1144896667}
 --- !u!114 &1144896666
 MonoBehaviour:
@@ -3035,6 +3103,7 @@ SceneRoots:
   - {fileID: 693527882}
   - {fileID: 957184865}
   - {fileID: 1548433064}
+  - {fileID: 603236574}
   - {fileID: 93697899}
   - {fileID: 1519940912}
   - {fileID: 1144896664}

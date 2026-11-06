@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
@@ -51,6 +52,23 @@ public class CoopGameManager : MonoBehaviour
     private int numeroJogo;
 
     private bool jogoAcabou = false;
+    private readonly Dictionary<GameObject, float> hitFeedbackExpirations = new Dictionary<GameObject, float>();
+
+    private void Update()
+    {
+        if (hitFeedbackExpirations.Count == 0) return;
+
+        List<GameObject> expired = null;
+        foreach (KeyValuePair<GameObject, float> item in hitFeedbackExpirations)
+        {
+            if (Time.time < item.Value) continue;
+            if (item.Key != null) item.Key.SetActive(false);
+            if (expired == null) expired = new List<GameObject>();
+            expired.Add(item.Key);
+        }
+        if (expired != null)
+            foreach (GameObject visual in expired) hitFeedbackExpirations.Remove(visual);
+    }
 
     private void Awake()
     {
@@ -126,10 +144,11 @@ public class CoopGameManager : MonoBehaviour
 
     public void OnPlayerHitMiss(int playerNumber) => OnPlayerMiss(playerNumber);
 
-    public HitQuality OnPlayerHit(float distance) => OnPlayerHit(distance, 1);
+    public HitQuality OnPlayerHit(float distance) => OnPlayerHit(distance, 1, KeyCode.None);
 
-    public HitQuality OnPlayerHit(float distance, int playerNumber)
+    public HitQuality OnPlayerHit(float distance, int playerNumber, KeyCode laneKey = KeyCode.None)
     {
+        ShowHitFeedback(playerNumber, laneKey);
         bool player1 = playerNumber == 1;
         if (player1) notasTotaisP1++;
         else notasTotaisP2++;
@@ -156,6 +175,35 @@ public class CoopGameManager : MonoBehaviour
                 break;
         }
         return quality;
+    }
+
+    private void ShowHitFeedback(int playerNumber, KeyCode laneKey)
+    {
+        if (coopSpawner == null || laneKey == KeyCode.None) return;
+        RectTransform target = coopSpawner.GetHitTarget(playerNumber, laneKey);
+        if (target == null) return;
+
+        string direction = laneKey == KeyCode.A || laneKey == KeyCode.LeftArrow ? "Left" :
+            laneKey == KeyCode.S || laneKey == KeyCode.DownArrow ? "Down" :
+            laneKey == KeyCode.W || laneKey == KeyCode.UpArrow ? "Up" :
+            laneKey == KeyCode.D || laneKey == KeyCode.RightArrow ? "Right" : null;
+        if (direction == null) return;
+
+        string visualName = direction + " Arrow Acerto";
+        Transform root = target;
+        while (root.parent != null)
+        {
+            Transform[] children = root.GetComponentsInChildren<Transform>(true);
+            foreach (Transform child in children)
+            {
+                if (child.name != visualName) continue;
+                GameObject visual = child.gameObject;
+                visual.SetActive(true);
+                hitFeedbackExpirations[visual] = Time.time + 0.7f;
+                return;
+            }
+            root = root.parent;
+        }
     }
 
     private void AwardHit(bool player1, int points, float healthChange)

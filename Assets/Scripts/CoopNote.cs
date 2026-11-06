@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 /// <summary>A note owned and judged by one of the two local players.</summary>
 public class CoopNote : MonoBehaviour
@@ -15,23 +16,28 @@ public class CoopNote : MonoBehaviour
     private bool wasHit;
     private bool isBeingHeld;
     private float holdTimer;
+    private float previousY;
+    public int direction;
 
-    public void Setup(int owner, KeyCode key, float noteSpeed, RectTransform target, bool hold, float duration, float missPosition)
+    public void Setup(int owner, int noteDirection, KeyCode key, float noteSpeed, RectTransform target, bool hold, float duration, float missPosition)
     {
         playerNumber = owner;
         keyToPress = key;
         speed = noteSpeed;
+        direction = noteDirection;
         hitTarget = target;
         isHold = hold;
         holdDuration = duration;
         missY = missPosition;
         rect = GetComponent<RectTransform>();
+        previousY = rect.anchoredPosition.y;
     }
 
     private void Update()
     {
         if (rect == null)
             rect = GetComponent<RectTransform>();
+
         if (wasHit && !isHold)
             return;
 
@@ -72,11 +78,23 @@ public class CoopNote : MonoBehaviour
     public bool Hit()
     {
         if (wasHit) return false;
+
         wasHit = true;
+
+        if (CoopGameManager.Instance != null)
+        {
+            CoopGameManager.Instance.OnPlayerHit(
+                DistanceToTargetPixels(),
+                playerNumber,
+                keyToPress
+            );
+        }
+
         if (isHold)
             isBeingHeld = true;
         else
             Destroy(gameObject);
+
         return true;
     }
 

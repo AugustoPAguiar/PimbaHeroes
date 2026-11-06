@@ -204,7 +204,7 @@ public class CoopNoteSpawner : MonoBehaviour
 
         CoopNote note = instance.GetComponent<CoopNote>();
         if (note == null) note = instance.AddComponent<CoopNote>();
-        note.Setup(player, GetKey(data.direction), noteSpeed, target, data.isHold, data.holdDuration, missY);
+        note.Setup(player, data.direction, GetKey(data.direction), noteSpeed, target, data.isHold, data.holdDuration, missY);
         activeNotes.Add(note);
     }
 
@@ -239,6 +239,15 @@ public class CoopNoteSpawner : MonoBehaviour
         (2, 0) => player2LeftTarget, (2, 1) => player2DownTarget, (2, 2) => player2UpTarget, (2, 3) => player2RightTarget,
         _ => null
     };
+
+    public RectTransform GetHitTarget(int player, KeyCode laneKey)
+    {
+        int direction = laneKey == KeyCode.A || laneKey == KeyCode.LeftArrow ? 0 :
+            laneKey == KeyCode.S || laneKey == KeyCode.DownArrow ? 1 :
+            laneKey == KeyCode.W || laneKey == KeyCode.UpArrow ? 2 :
+            laneKey == KeyCode.D || laneKey == KeyCode.RightArrow ? 3 : -1;
+        return direction < 0 ? null : GetTarget(direction, player);
+    }
 
     private static KeyCode GetKey(int direction) => direction switch
     {

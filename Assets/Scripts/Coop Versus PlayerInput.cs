@@ -53,8 +53,8 @@ public class CoopVersusPlayerInput : MonoBehaviour
             }
         }
 
-        if (closestNote != null && closestNote.Hit())
-            CoopGameManager.Instance.OnPlayerHit(closestDistance, playerNumber);
+        if (closestNote != null)
+            closestNote.Hit();
     }
 
     private void ReleaseHold(KeyCode controlKey, KeyCode laneKey, int playerNumber)
